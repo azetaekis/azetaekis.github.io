@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>7.a. - Cinder con LVM - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "7.a. - Cinder con LVM";
+    var mkdocs_page_input_path = "openstack\\07-1-cinder+lvm.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../previos/previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../01-keystone/">1. - Keystone</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../04-neutron/">4. - Neutron</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">7.a. - Cinder con LVM</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#7-cinder">7. Cinder</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#70-info">7.0 Info</a></li>
+        
+            <li><a class="toctree-l4" href="#71-instalacion">7.1 Instalación</a></li>
+        
+            <li><a class="toctree-l4" href="#712-almacenamiento">7.1.2 Almacenamiento</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#72-base-de-datos">7.2 Base de datos</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#73-servicio-usuario-y-endpoints">7.3 Servicio, usuario y endpoints</a></li>
+        
+            <li><a class="toctree-l4" href="#74-configuracion">7.4 Configuración</a></li>
+        
+            <li><a class="toctree-l4" href="#75-comprobacion">7.5 Comprobación</a></li>
+        
+            <li><a class="toctree-l4" href="#76-operaciones">7.6 Operaciones</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../08-heat/">8. - Heat</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Componentes Openstack &raquo;</li>
+        
+      
+    
+    <li>7.a. - Cinder con LVM</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="7-cinder">7. Cinder</h1>
+<h2 id="70-info">7.0 Info</h2>
+<ul>
+<li><a href="https://docs.openstack.org/cinder/latest/admin/blockstorage-consistency-groups.html">Consistency group</a></li>
+</ul>
+<h2 id="71-instalacion">7.1 Instalación</h2>
+<h3 id="711-controladores">7.1.1 Controladores</h3>
+<p><strong>controllers</strong></p>
+<p>Instalamos los paquetes para Cinder:</p>
+<pre><code class="shell">sudo apt install cinder-api cinder-scheduler
+</code></pre>
+
+<p><strong>NOTA:</strong> <code>cinder-api</code> se instala como un <code>mod_wsgi</code> de Apache</p>
+<h2 id="712-almacenamiento">7.1.2 Almacenamiento</h2>
+<p><strong>storage01</strong></p>
+<p>Instalamos los paquetes para Cinder:</p>
+<pre><code class="shell">sudo apt install cinder-volume thin-provisioning-tools
+</code></pre>
+
+<h1 id="72-base-de-datos">7.2 Base de datos</h1>
+<p><strong>controller01</strong></p>
+<p>Creamos la base de datos:</p>
+<p><code>sudo mysql -p</code></p>
+<pre><code class="sql">CREATE DATABASE cinder;
+GRANT ALL PRIVILEGES ON cinder.* TO 'cinderuser'@'localhost' IDENTIFIED BY 'cinderpass';
+GRANT ALL PRIVILEGES ON cinder.* TO 'cinderuser'@'%' IDENTIFIED BY 'cinderpass';
+</code></pre>
+
+<p>Editamos el fichero <code>/etc/cinder/cinder.conf</code>:</p>
+<pre><code class="ini">[database]
+connection = mysql+pymysql://cinderuser:cinderpass@controller/cinder
+</code></pre>
+
+<p>Poblamos la base de datos:</p>
+<pre><code class="shell">sudo su -s /bin/sh -c &quot;cinder-manage db sync&quot; cinder
+</code></pre>
+
+<h2 id="73-servicio-usuario-y-endpoints">7.3 Servicio, usuario y endpoints</h2>
+<p><strong>controller01</strong></p>
+<p>Creamos el usuario <code>cinder</code> y lo añadimos al proyecto <code>service</code> con el rol <code>admin</code>:</p>
+<pre><code class="shell">source adminrc
+
+openstack user create --domain default --password c1nd3r cinder
+
+openstack role add --project service --user cinder admin
+</code></pre>
+
+<p>Creamos el servicio <code>cinderv2</code>:</p>
+<pre><code class="shell">openstack service create --name cinderv2 --description &quot;OpenStack Block Storage&quot; volumev2
+</code></pre>
+
+<p>Creamos los endpoints para Cinder v2:</p>
+<pre><code class="shell">openstack endpoint create --region SanSebastian volumev2 public http://public-api.hispavistaroot.local:8776/v2/%\(project_id\)s
+openstack endpoint create --region SanSebastian volumev2 internal http://controller:8776/v2/%\(project_id\)s
+openstack endpoint create --region SanSebastian volumev2 admin http://controller:8776/v2/%\(project_id\)s
+</code></pre>
+
+<p>Creamos el servicio <code>cinderv3</code>:</p>
+<pre><code class="shell">openstack service create --name cinderv3 --description &quot;OpenStack Block Storage&quot; volumev3
+</code></pre>
+
+<p>Creamos los endpoints para Cinder v3:</p>
+<pre><code class="shell">openstack endpoint create --region SanSebastian volumev3 public http://public-api.hispavistaroot.local:8776/v3/%\(project_id\)s
+openstack endpoint create --region SanSebastian volumev3 internal http://controller:8776/v3/%\(project_id\)s
+openstack endpoint create --region SanSebastian volumev3 admin http://controller:8776/v3/%\(project_id\)s
+</code></pre>
+
+<h2 id="74-configuracion">7.4 Configuración</h2>
+<h3 id="741-controladores">7.4.1 Controladores</h3>
+<p><strong>controllers</strong></p>
+<p>Configuramos Cinder editando el fichero <code>/etc/cinder/cinder.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+bind_host = controller0x
+
+rootwrap_config = /etc/cinder/rootwrap.conf
+api_paste_confg = /etc/cinder/api-paste.ini
+iscsi_helper = tgtadm
+volume_name_template = volume-%s
+#volume_group = cinder-volumes
+verbose = True
+auth_strategy = keystone
+state_path = /var/lib/cinder
+lock_path = /var/lock/cinder
+volumes_dir = /var/lib/cinder/volumes
+
+enabled_backends=lvmFast01,lvmFast02,lvmSlow01
+
+scheduler_driver=cinder.scheduler.filter_scheduler.FilterScheduler
+
+transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+
+auth_host = controllerp
+
+
+auth_strategy = keystone
+my_ip = 172.16.100.11
+
+[oslo_concurrency]
+lock_path = /var/lib/cinder/tmp
+
+[database]
+connection = mysql+pymysql://cinderuser:cinderpass@controller/cinder
+
+[keystone_authtoken]
+auth_uri = http://controllerp:5000
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = cinder
+password = c1nd3r
+
+backend = dogpile.cache.memcached
+memcached_servers = controller01:11211, controller02:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+
+[cinder]
+catalog_info = volumev3:cinderv3:adminURL
+
+[oslo_messaging_rabbit]
+rabbit_retry_interval=1
+rabbit_retry_backoff=2
+rabbit_max_retries=0
+rabbit_ha_queues=true
+
+</code></pre>
+
+<p>Configuramos Nova editando el fichero <code>/etc/nova/nova.conf</code>:</p>
+<pre><code class="ini">[cinder]
+catalog_info = volumev3:cinderv3:adminURL
+</code></pre>
+
+<p>Reiniciamos los servicios:</p>
+<pre><code class="shell">sudo service nova-api restart
+
+sudo service cinder-scheduler restart
+sudo service apache2 restart
+</code></pre>
+
+<h3 id="742-almacenamiento">7.4.2 Almacenamiento</h3>
+<p><strong>storage01</strong></p>
+<p>Creamos el volumen lógico y el grupo de volúmenes <code>cinder-volumes</code>:</p>
+<pre><code class="shell">sudo pvcreate /dev/vdb
+sudo vgcreate cinder-volumes /dev/vdb
+</code></pre>
+
+<p>Configuramos Cinder editando el fichero <code>/etc/cinder/cinder.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+rootwrap_config = /etc/cinder/rootwrap.conf
+api_paste_confg = /etc/cinder/api-paste.ini
+iscsi_helper = tgtadm
+volume_name_template = volume-%s
+volume_group = cinder-volumes
+verbose = False
+my_ip = 172.16.100.151
+glance_catalog_info = image:glance:adminURL
+
+transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+auth_strategy = keystone
+state_path = /var/lib/cinder
+lock_path = /var/lock/cinder
+volumes_dir = /var/lib/cinder/volumes
+
+enabled_backends = lvmFast01,lvmFast02,lvmSlow01
+
+[oslo_concurrency]
+lock_path = /var/lib/cinder/tmp
+
+[oslo_messaging_notifications]
+driver = messagingv2
+
+[database]
+connection = mysql+pymysql://cinderuser:cinderpass@controller/cinder
+
+[keystone_authtoken]
+auth_uri = http://controller:5000
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = cinder
+password = c1nd3r
+
+[lvmFast01]
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinderv1-Fast
+iscsi_protocol = iscsi
+iscsi_helper = tgtadm
+iscsi_ip_address = 172.16.1.151
+volume_clear = none
+volume_backend_name = lvmFast01
+
+[lvmFast02]
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinderv2-Fast
+iscsi_protocol = iscsi
+iscsi_helper = tgtadm
+iscsi_ip_address = 172.16.1.151
+volume_clear = none
+volume_backend_name = lvmFast02
+
+[lvmSlow01]
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinderv1-Slow
+iscsi_protocol = iscsi
+iscsi_helper = tgtadm
+iscsi_ip_address = 172.16.1.151
+volume_clear = none
+volume_backend_name = lvmSlow01
+</code></pre>
+
+<p>Reiniciamos los servicios:</p>
+<pre><code class="shell">sudo service tgt restart
+sudo service cinder-volume restart
+</code></pre>
+
+<h3 id="743-computacion">7.4.3 Computación</h3>
+<p><strong>kvm01 kvm02</strong></p>
+<p>Configuramos Nova editando el fichero <code>/etc/nova/nova.conf</code>:</p>
+<pre><code class="ini">[cinder]
+## hemos puesto el v3 porque no hemos configurado la v2
+catalog_info = volumev3:cinderv3:adminURL
+</code></pre>
+
+<p>Reiniciamos el servicio:</p>
+<pre><code class="shell">sudo service nova-compute restart
+</code></pre>
+
+<p><strong>NOTA:</strong> Esto es necesario para iniciar instancias desde volúmenes</p>
+<h2 id="75-comprobacion">7.5 Comprobación</h2>
+<h3 id="751-administrador">7.5.1 Administrador</h3>
+<p><strong>controller01</strong></p>
+<p>Añadimos la siguiente línea al fichero <code>/home/hvsistemas/adminrc</code>:</p>
+<pre><code class="shell">export OS_VOLUME_API_VERSION=3
+</code></pre>
+
+<p>Comprobamos que están todos los servicios:</p>
+<pre><code class="shell">source adminrc
+
+openstack volume service list
+</code></pre>
+
+<h3 id="752-usuario">7.5.2 Usuario</h3>
+<p><strong>local</strong></p>
+<p>Añadimos la siguiente línea al fichero <code>/home/hvsistemas/hvsistemasrc</code>:</p>
+<pre><code class="shell">export OS_VOLUME_API_VERSION=3
+</code></pre>
+
+<p>Creamos un volumen:</p>
+<pre><code class="shell">source hvsistemasrc
+
+openstack volume create vol01 --size 1
+</code></pre>
+
+<p>Listamos los volúmenes:</p>
+<pre><code class="shell">openstack volume list
+</code></pre>
+
+<p>Borramos el volumen:</p>
+<pre><code class="shell">openstack volume delete vol01
+</code></pre>
+
+<h2 id="76-operaciones">7.6 Operaciones</h2>
+<p><strong>Admin (Horizon)</strong></p>
+<p>En <code>Volume Types</code> creamos los tipos de almacenamiento por cada backend que tengamos, por ejemplo:</p>
+<pre><code>Disco_Rapido01 --&gt; volume_backend_name --&gt; lvmFast01
+Disco_Rapido02 --&gt; volume_backend_name --&gt; lvmFast02
+Disco_Lento01 --&gt; volume_backend_name --&gt; lvmSlow01
+</code></pre>
+
+<p><strong>Para volúmenes "rebeldes"</strong>
+si al hacer un <code>lvremove nombredelvolumen</code> nos dice que está en uso:</p>
+<pre><code class="shell">service tgt stop
+lvremove grupodelvolumen/nombredelvolumen
+service tgt start
+</code></pre>
+
+<p><strong>horizon (hvsistemas)</strong></p>
+<ul>
+<li>Creamos un volumen vacío <code>vol01</code> de 10GB</li>
+<li>Hacemos el <strong>attach</strong> del volumen a una instancia</li>
+<li>Formateamos</li>
+<li>Montamos en <code>/mnt</code></li>
+<li>Creamos algún contenido</li>
+<li>Hacemos el <strong>detach</strong> de esta instancia</li>
+<li>¿Por qué nos pregunta lo que nos pregunta?</li>
+<li>¿Podemos hacerlel <strong>detach</strong> sin más?</li>
+<li>Hacemos el <strong>attach</strong> a otra instancia</li>
+<li>Comprobamos que los datos siguen ahí</li>
+<li>Hacemos el <strong>detach</strong> de esta instancia</li>
+<li>Ampliamos el volumen a 15GB</li>
+<li>Volvemos a hacer el <strong>attach</strong> a una instancia</li>
+<li>Comprobamos el tamaño del volumen</li>
+<li>Hacemos un snapshot de vol01 de nombre <code>vol01-snap</code></li>
+<li>¿Por qué nos pregunta lo que nos pregunta?</li>
+<li>Creamos un volumen desde el snapshot <code>vol01-snap</code> de nombre <code>vol02</code></li>
+<li>Hacemos el <strong>attach</strong> de <code>vol02</code> a una instancia</li>
+<li>Comprobamos que los datos siguen ahí</li>
+<li>Comprobamos el tamaño</li>
+<li>Hacemos el <strong>detach</strong> de <code>vol02</code> y lo borramos</li>
+<li>Hacemos el <strong>detach</strong> de <code>vol01</code> y lo borramos</li>
+<li>
+<p>¿Por qué da error?</p>
+</li>
+<li>
+<p>Se pueden transferir volúmenes entre proyectos</p>
+</li>
+<li>Se puede subir un volumen a una imagen (para arrancar desde él)</li>
+<li>
+<p>Se puede hacer backup de un volumen (en nuestro caso no)</p>
+</li>
+<li>
+<p>Creación de instancias creando un volumen</p>
+</li>
+<li>Creación de instancias desde volúmenes</li>
+</ul>
+<p><strong>Borrar un Servicio de Alamacenamiento de Cinder: lvmFast02</strong></p>
+<p>[horizon]</p>
+<ul>
+<li>Miramos que no tengamos ninguna instancia corriendo en ese backend de disco (migrar a otro volumen)</li>
+<li>Borramos en Volumen\Tipos de Volumenes la referencia al backend (Disco_Rapido02)</li>
+</ul>
+<p>[Storage01]</p>
+<ul>
+<li>Borramos las entradas que hacen referencia en el fichero /etc/cinder/cinder.conf</li>
+</ul>
+<pre><code class="ini">enabled_backends = lvmFast01,lvmFast02,lvmSlow01
+
+[lvmFast02]
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinderv2-Fast
+iscsi_protocol = iscsi
+iscsi_helper = tgtadm
+iscsi_ip_address = 172.16.1.151
+volume_clear = none
+volume_backend_name = lvmFast02
+</code></pre>
+
+<ul>
+<li>Reiniciamos el servicio volume</li>
+</ul>
+<pre><code class="shell">service cinder-volume restart
+</code></pre>
+
+<p>[Controllers]</p>
+<ul>
+<li>Modificamos la entrada enabled_backends del fichero /etc/cinder/cinder.conf para que no aparezca el backend eleminado</li>
+<li>Reiniciamos el servicio cinder scheduler</li>
+</ul>
+<pre><code class="shell">service cinder-scheduler restart
+</code></pre>
+
+<ul>
+<li>Cargamos los sources de admin para openstack</li>
+</ul>
+<pre><code class="shell">cd /home/hvsistemas/
+. adminrc
+</code></pre>
+
+<ul>
+<li>Miramos los servicios de volumen que tenemos:</li>
+</ul>
+<pre><code class="shell">openstack volume service list
++------------------+---------------------+------+---------+-------+----------------------------+
+| Binary           | Host                | Zone | Status  | State | Updated At                 |
++------------------+---------------------+------+---------+-------+----------------------------+
+| cinder-scheduler | controller02        | nova | enabled | up    | 2018-05-15T10:36:07.000000 |
+| cinder-scheduler | controller01        | nova | enabled | up    | 2018-05-15T10:36:07.000000 |
+| cinder-volume    | storage01@lvmFast01 | nova | enabled | up    | 2018-05-15T10:36:08.000000 |
+| cinder-volume    | storage01@lvmFast02 | nova | enabled | up    | 2018-05-15T10:36:08.000000 |
+| cinder-volume    | storage01@lvmSlow01 | nova | enabled | up    | 2018-05-15T10:36:09.000000 |
++------------------+---------------------+------+---------+-------+----------------------------+
+</code></pre>
+
+<ul>
+<li>Deshabilitamos el servicio storage01@lvmFast02</li>
+</ul>
+<pre><code class="shell">openstack volume service set storage01@lvmFast02 cinder-volume --disable
+</code></pre>
+
+<ul>
+<li>Borramos el servicio</li>
+</ul>
+<pre><code class="shell">cinder-manage service remove cinder-volume storage01@lvmFast02
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../07-2-cinder+ceph/" class="btn btn-neutral float-right" title="7.b. - Cinder con Ceph">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../06-operaciones/" class="btn btn-neutral" title="6. - Operaciones"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../06-operaciones/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../07-2-cinder+ceph/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>0.1 - Corosync y Pacemaker - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "0.1 - Corosync y Pacemaker";
+    var mkdocs_page_input_path = "previos\\00-1-HA - Corosync y Pacemaker.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">0.1 - Corosync y Pacemaker</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#corosync-y-pacemaker">COROSYNC Y PACEMAKER</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#1-instalacion">1. Instalación</a></li>
+        
+            <li><a class="toctree-l4" href="#2-corosync">2. Corosync</a></li>
+        
+            <li><a class="toctree-l4" href="#3-configuracion">3. Configuración</a></li>
+        
+            <li><a class="toctree-l4" href="#4-comprobacion-de-estado">4. Comprobación de estado</a></li>
+        
+            <li><a class="toctree-l4" href="#5-configuracion-de-propiedades-del-cluster">5. Configuración de propiedades del cluster</a></li>
+        
+            <li><a class="toctree-l4" href="#5-anadir-ip-de-balanceo">5. Añadir IP de balanceo</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../openstack/01-keystone/">1. - Keystone</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/04-neutron/">4. - Neutron</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/08-heat/">8. - Heat</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Previos &raquo;</li>
+        
+      
+    
+    <li>0.1 - Corosync y Pacemaker</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="corosync-y-pacemaker">COROSYNC Y PACEMAKER</h1>
+<h2 id="1-instalacion">1. Instalación</h2>
+<p><strong>Controller01 y Controller02 (en todos los controllers)</strong></p>
+<p>Instalar los siguientes paquetes:</p>
+<pre><code class="shell">apt install pacemaker corosync pcs fence-agents resource-agents libqb0
+</code></pre>
+
+<h2 id="2-corosync">2. Corosync</h2>
+<p>Habilitamos el servicio y lo añadimos al arranque:</p>
+<pre><code class="shell">update-rc.d corosync defaults
+update-rc.d corosync enable
+</code></pre>
+
+<p>Movemos el fichero de configuración original:</p>
+<pre><code class="shell">mv /etc/corosync/corosync.conf /etc/corosync/corosync.conf.bak
+</code></pre>
+
+<p>Editamos el fichero /etc/corosync/corosync.conf`:</p>
+<pre><code class="json">totem {
+    version: 2
+    secauth: off
+    cluster_name: openstackv1
+    transport: udpu
+}
+
+nodelist {
+    node {
+        ring0_addr: controller01
+        nodeid: 1
+    }
+
+    node {
+        ring0_addr: controller02
+        nodeid: 2
+    }
+}
+
+quorum {
+    provider: corosync_votequorum
+    two_node: 1
+}
+
+logging {
+    to_logfile: yes
+    logfile: /var/log/corosync/corosync.log
+    to_syslog: yes
+}
+</code></pre>
+
+<p><strong>NOTA:</strong> tal vez deberíamos añadir otra interfaz de red aquí, para que el anillo funcione mejor.</p>
+<p>Ejecutamoms <code>mkdir -p /etc/corosync/uidgid.d/</code> y creamos el fichero <code>/etc/corosync/uidgid.d/pacemaker</code>:</p>
+<pre><code class="json">uidgid {
+  uid: hacluster
+  gid: haclient
+}
+</code></pre>
+
+<h2 id="3-configuracion">3. Configuración</h2>
+<h3 id="importante-asegurarse-de-que-en-etchosts-no-hay-referencias-al-nombre-de-la-maquina-con-ips-locales-como-por-ejemplo">IMPORTANTE: asegurarse de que en <code>/etc/hosts</code> NO hay referencias al nombre de la máquina con IPs locales, como por ejemplo:</h3>
+<pre><code class="ini">127.0.1.1   controller01
+::1     localhost ip6-localhost ip6-loopback
+</code></pre>
+
+<p><strong>Controller01 y Controller02 (en todos los controllers)</strong></p>
+<p>Asegurarse de que <code>pcsd</code>  se inicia como servicio y establecer una contraseña al usuario <code>hacluster</code>:</p>
+<pre><code class="shell">passwd hacluster
+systemctl enable pcsd
+systemctl start pcsd
+
+</code></pre>
+
+<p><strong>En uno de los controllers</strong></p>
+<p>Autenticamos todos los miembros del cluster:</p>
+<pre><code class="shell">pcs cluster auth controller01 controller02 -u hacluster -p CONTRASEÑA --force
+</code></pre>
+
+<blockquote>
+<blockquote>
+<blockquote>
+<p><strong>NOTA:</strong> controller01p y controller02p son las ip's públicas</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Creamos y damos nombre al cluster, lo incializamos y habilitamos el autoarranque:</p>
+<pre><code class="shell">pcs cluster setup --force --name openstackv1 controller01 controller02
+pcs cluster start --all
+pcs cluster enable --all
+</code></pre>
+
+<p>En caso de que el comando <code>setup</code> nos hubiera devuelto un error, ejecutar <code>pcs cluster auth</code>, meter el usuario hacluster y la contraseña que hemos puesto antes y nos saldrá algo así:</p>
+<blockquote>
+<p>Username: hacluster</p>
+<p>Password:</p>
+<p>controller02p: Authorized</p>
+<p>controller01p: Authorized</p>
+</blockquote>
+<h2 id="4-comprobacion-de-estado">4. Comprobación de estado</h2>
+<p>Podemos usar los siguientes comandos para ver el estado del cluster:</p>
+<pre><code class="shell">corosync-cmapctl | grep members
+corosync-cfgtool -s
+pcs status cluster
+</code></pre>
+
+<p>El resultado del último, si todo va bien sería algo así:</p>
+<blockquote>
+<p>Cluster Status:
+Last updated: Wed Apr 11 10:42:26 2018         Last change: Wed Apr 11 10:40:43 2018 by hacluster via crmd on controller01p
+Stack: corosync
+Current DC: controller01p (version 1.1.14-70404b0) - partition with quorum
+2 nodes and 0 resources configured
+Online: [ controller01p controller02p ]
+PCSD Status:
+controller01p: Online
+controller02p: Online</p>
+</blockquote>
+<h2 id="5-configuracion-de-propiedades-del-cluster">5. Configuración de propiedades del cluster</h2>
+<p><strong>En uno de los controllers</strong></p>
+<pre><code class="shell">pcs property set pe-warn-series-max=1000 \
+  pe-input-series-max=1000 \
+  pe-error-series-max=1000 \
+  cluster-recheck-interval=5min
+</code></pre>
+
+<p>En el entorno de desarrollo desactivaremos los mecanismos STONITH (apagar nodos vía IPMI o ssh cuando fallen), pero en producción hay que dejarlo activado, siempre y cuando tengamos mínimo 3 nodos. También desactivaremos el quorum, ya que con dos nodos no tiene sentido:</p>
+<pre><code class="shell">pcs property set stonith-enabled=false
+pcs property set no-quorum-policy=ignore
+</code></pre>
+
+<h2 id="5-anadir-ip-de-balanceo">5. Añadir IP de balanceo</h2>
+<p>Para añadir una Virtual IP escribimos lo siguiente:</p>
+<pre><code class="shell"> pcs resource create vip ocf:heartbeat:IPaddr2 \
+  params ip=&quot;172.16.100.10&quot; cidr_netmask=&quot;24&quot; op monitor interval=&quot;30s&quot;
+
+   pcs resource create vip2 ocf:heartbeat:IPaddr2 \
+  params ip=&quot;192.168.111.10&quot; cidr_netmask=&quot;24&quot; op monitor interval=&quot;30s&quot;
+</code></pre>
+
+<blockquote>
+<blockquote>
+<blockquote>
+<p><strong>NOTA:</strong> podemos sustituir la IP 172.16.100.10 por 192.168.111.10 si queremos hacer el balanceo hacia fuera. Para borrar la VIP escribimos <code>pcs resource delete vip</code></p>
+</blockquote>
+</blockquote>
+</blockquote>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../00-2-HA - HAPROXY/" class="btn btn-neutral float-right" title="0.2 - HaProxy">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../previos/" class="btn btn-neutral" title="0.0 - Configuración inicial"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../previos/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../00-2-HA - HAPROXY/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

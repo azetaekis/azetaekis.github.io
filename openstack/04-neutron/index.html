@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>4. - Neutron - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "4. - Neutron";
+    var mkdocs_page_input_path = "openstack\\04-neutron.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../previos/previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../01-keystone/">1. - Keystone</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../03-nova/">3. - Nova</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">4. - Neutron</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#4-neutron">4. Neutron</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#41-instalacion">4.1 Instalación</a></li>
+        
+            <li><a class="toctree-l4" href="#42-base-de-datos">4.2 Base de datos</a></li>
+        
+            <li><a class="toctree-l4" href="#43-servicio-usuario-y-endpoints">4.3 Servicio, usuario y endpoints</a></li>
+        
+            <li><a class="toctree-l4" href="#44-configuracion">4.4 Configuración</a></li>
+        
+            <li><a class="toctree-l4" href="#45-comprobaciones">4.5 Comprobaciones</a></li>
+        
+            <li><a class="toctree-l4" href="#46-debugging">4.6 Debugging</a></li>
+        
+            <li><a class="toctree-l4" href="#47-ha">4.7 HA</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../08-heat/">8. - Heat</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Componentes Openstack &raquo;</li>
+        
+      
+    
+    <li>4. - Neutron</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="4-neutron">4. Neutron</h1>
+<h2 id="41-instalacion">4.1 Instalación</h2>
+<h3 id="411-controladores">4.1.1 Controladores</h3>
+<p><strong>controllers</strong></p>
+<p>Instalamos los paquetes para Neutron:</p>
+<pre><code class="shell">sudo apt install neutron-server
+</code></pre>
+
+<h3 id="412-networking">4.1.2 Networking</h3>
+<p><strong>gateways</strong></p>
+<p>Instalamos los paquetes para Neutron:</p>
+<pre><code class="sh">sudo apt install neutron-plugin-ml2 neutron-openvswitch-agent neutron-l3-agent neutron-dhcp-agent neutron-metadata-agent
+</code></pre>
+
+<h3 id="413-computacion">4.1.3 Computación</h3>
+<p><strong>kvm01 kvm02</strong></p>
+<p>Instalamos los paquetes para Neutron:</p>
+<pre><code class="sh">sudo apt install neutron-openvswitch-agent
+</code></pre>
+
+<h2 id="42-base-de-datos">4.2 Base de datos</h2>
+<p><strong>controller01</strong></p>
+<p>Creamos la base de datos:</p>
+<pre><code class="sql">sudo mysql
+
+CREATE DATABASE neutron;
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutronuser'@'localhost' IDENTIFIED BY 'neutronpass';
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutronuser'@'%' IDENTIFIED BY 'neutronpass';
+</code></pre>
+
+<h2 id="43-servicio-usuario-y-endpoints">4.3 Servicio, usuario y endpoints</h2>
+<p><strong>controller01</strong></p>
+<p>Creamos el usuario <code>neutron</code> y lo añadimos al proyecto <code>service</code> con el rol <code>admin</code>:</p>
+<pre><code class="sh">source adminrc
+
+openstack user create --domain default --password n37tr0n neutron
+
+openstack role add --project service --user neutron admin
+</code></pre>
+
+<p>Creamos el servicio <code>neutron</code>:</p>
+<pre><code class="sh">openstack service create --name neutron --description &quot;OpenStack Networking&quot; network
+</code></pre>
+
+<p>Creamos los endpoints para Neutron:</p>
+<pre><code class="sh">openstack endpoint create --region SanSebastian network public http://public-api.hispavistaroot.local:9696
+openstack endpoint create --region SanSebastian network internal http://controller:8778
+openstack endpoint create --region SanSebastian network admin http://controller:8778
+</code></pre>
+
+<h2 id="44-configuracion">4.4 Configuración</h2>
+<h3 id="441-controladores">4.4.1 Controladores</h3>
+<p><strong>controllers</strong></p>
+<p>Configuramos Neutron editando el fichero <code>/etc/neutron/neutron.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+bind_host = controller0x
+bind_port = 9696
+transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+auth_strategy = keystone
+core_plugin = ml2
+service_plugins = router
+allow_overlapping_ips = true
+notify_nova_on_port_status_changes = true
+notify_nova_on_port_data_changes = true
+
+[database]
+#connection = sqlite:////var/lib/neutron/neutron.sqlite
+connection = mysql+pymysql://neutronuser:neutronpass@controller/neutron
+
+[keystone_authtoken]
+auth_uri = http://public-api.hispavistaroot.local:5000
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = neutron
+password = n37tr0n
+
+backend = dogpile.cache.memcached
+memcache_servers = controller01:11211, controller02:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+
+[nova]
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = SanSebastian
+project_name = service
+username = nova
+password = n0v4
+</code></pre>
+
+<p>Configuramos el plugin ML2 editando el fichero <code>/etc/neutron/plugins/ml2/ml2_conf.ini</code>:</p>
+<pre><code class="ini">[ml2]
+type_drivers = flat,vxlan
+tenant_network_types = vxlan
+mechanism_drivers = openvswitch,l2population
+extension_drivers = port_security
+
+[ml2_type_flat]
+flat_networks = provider
+
+[ml2_type_vxlan]
+vni_ranges = 1:1000
+
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+enable_ipset = true
+</code></pre>
+
+<p>Configuramos Nova para que use Neutron editando el fichero <code>/etc/nova/nova.conf</code>:</p>
+<pre><code class="ini">[neutron]
+url = http://controller:9696
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = SanSebastian
+project_name = service
+username = neutron
+password = n37tr0n
+service_metadata_proxy = true
+
+metadata_proxy_shared_secret = 1234567890
+</code></pre>
+
+<p>Reiniciamos los servicios:</p>
+<pre><code class="sh">sudo service neutron-server restart
+sudo service nova-api restart
+</code></pre>
+
+<h3 id="442-networking">4.4.2 Networking</h3>
+<p><strong>gateways</strong></p>
+<p>En el fichero <code>/etc/sysctl.conf</code> añadimos:</p>
+<pre><code class="ini">net.ipv4.ip_forward=1
+net.ipv4.conf.all.rp_filter=0
+net.ipv4.conf.default.rp_filter=0
+</code></pre>
+
+<p>Aplicamos los parámetros:</p>
+<pre><code class="shell">sudo sysctl -p
+</code></pre>
+
+<p>Configuramos Neutron editando el fichero <code>/etc/neutron/neutron.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+auth_strategy = keystone
+core_plugin = ml2
+service_plugins = router
+allow_overlapping_ips = true
+
+[keystone_authtoken]
+auth_uri = http://public-api.hispavistaroot.local:5000
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = neutron
+password = n37tr0n
+</code></pre>
+
+<p>Configuramos el plugin ML2 editando el fichero <code>/etc/neutron/plugins/ml2/ml2_conf.ini</code>:</p>
+<pre><code class="ini">[ml2]
+type_drivers = flat,vxlan
+tenant_network_types = vxlan
+mechanism_drivers = openvswitch,l2population
+extension_drivers = port_security
+
+[ml2_type_flat]
+flat_networks = provider
+
+[ml2_type_vxlan]
+vni_ranges = 1:1000
+
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+enable_ipset = true
+</code></pre>
+
+<p>Configuramos el agente OpenVSwitch editando el fichero <code>/etc/neutron/plugins/ml2/openvswitch_agent.ini</code>:</p>
+<pre><code class="ini">[ovs]
+local_ip = 172.16.200.5x
+bridge_mappings = provider:br-ex
+
+[agent]
+tunnel_types = vxlan
+
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+enable_ipset = true
+</code></pre>
+
+<p>Cambiamos la configuración de la interfaz <code>eno2</code>  (o como se llame) editando el fichero <code>/etc/network/interfaces</code>:</p>
+<pre><code class="shell">#auto eno2
+#iface ens4 inet dhcp
+
+auto eno2
+iface eno2 inet manual
+  up ip address add 0/0 dev $IFACE
+  up ip link set $IFACE up
+  up ip link set $IFACE promisc on
+  down ip link set $IFACE promisc
+</code></pre>
+
+<p>Creamos los bridges y añadimos la interfaz <code>eno2</code> (enp9s0f0, eno1, como se llame) al bridge <code>br-ex</code>:</p>
+<pre><code class="shell">sudo ovs-vsctl add-br br-int #por defecto se suele crear en ubuntu al menos
+sudo ovs-vsctl add-br br-ex
+sudo ovs-vsctl add-port br-ex eno2
+sudo ovs-vsctl show  #para verificar los bridges
+</code></pre>
+
+<p>Configuramos el agente L3 editando el fichero <code>/etc/neutron/l3_agent.ini</code>:</p>
+<pre><code class="ini">[DEFAULT]
+interface_driver = openvswitch
+</code></pre>
+
+<p>Configuramos el agente DHCP editando el fichero <code>/etc/neutron/dhcp_agent.ini</code>:</p>
+<pre><code class="ini">[DEFAULT]
+interface_driver = openvswitch
+ovs_integration_bridge = br-int
+dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
+enable_isolated_metadata = true
+</code></pre>
+
+<p>Configuramos el agente Metadata editando el fichero <code>/etc/neutron/metadata_agent.ini</code>:</p>
+<pre><code class="ini">[DEFAULT]
+nova_metadata_host = controller
+nova_metadata_port = 8775
+metadata_proxy_shared_secret = 1234567890
+</code></pre>
+
+<p><strong>controller01</strong></p>
+<p>Poblamos la base de datos:</p>
+<pre><code class="shell">sudo su -s /bin/sh -c &quot;neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head&quot; neutron
+</code></pre>
+
+<p><strong>NOTA:</strong> Esto hay que hacerlo con todos los plugins configurados</p>
+<p><strong>gateways</strong></p>
+<p>Reiniciamos los servicios:</p>
+<pre><code class="shell">sudo service neutron-openvswitch-agent restart
+sudo service neutron-l3-agent restart
+sudo service neutron-dhcp-agent restart
+sudo service neutron-metadata-agent restart
+</code></pre>
+
+<h3 id="443-computacion">4.4.3 Computación</h3>
+<p><strong>kvm01 kvm02</strong></p>
+<p>En el fichero <code>/etc/sysctl.conf</code> añadimos:</p>
+<pre><code class="ini">net.ipv4.conf.all.rp_filter=0
+net.ipv4.conf.default.rp_filter=0
+</code></pre>
+
+<p>Aplicamos los parámetros:</p>
+<pre><code class="shell">sudo sysctl -p
+</code></pre>
+
+<p>Configuramos Neutron editando el fichero <code>/etc/neutron/neutron.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+auth_strategy = keystone
+
+[keystone_authtoken]
+auth_uri = http://public-api.hispavistaroot.local:5000
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = neutron
+password = n37tr0n
+</code></pre>
+
+<p>Configuramos el agente OpenVSwitch editando el fichero <code>/etc/neutron/plugins/ml2/openvswitch_agent.ini</code>:</p>
+<pre><code class="ini">[ovs]
+local_ip = 172.16.200.10x
+
+[agent]
+tunnel_types = vxlan
+
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+enable_ipset = true
+</code></pre>
+
+<p><strong>NOTA:</strong> Nos aseguramos que hemos cambiado la <code>x</code> por <code>1</code> en caso de <code>kvm01</code> y <code>2</code> en caso de <code>kvm02</code></p>
+<p>Configuramos Nova para que use Neutron editando el fichero <code>/etc/nova/nova.conf</code>:</p>
+<pre><code class="ini">[neutron]
+url = http://controller:9696
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = SanSebastian
+project_name = service
+username = neutron
+password = n37tr0n
+</code></pre>
+
+<p>Reiniciamos los servicios:</p>
+<pre><code class="ini">sudo service nova-compute restart
+sudo service neutron-openvswitch-agent restart
+</code></pre>
+
+<h2 id="45-comprobaciones">4.5 Comprobaciones</h2>
+<p><strong>controler01</strong></p>
+<p>Comprobamos los agentes:</p>
+<pre><code class="shell">source adminrc
+
+openstack network agent list
+</code></pre>
+
+<p>Comprobamos las redes y routers:</p>
+<pre><code class="shell">source hvsistemasrc
+
+openstack network list
+openstack router list
+</code></pre>
+
+<h2 id="46-debugging">4.6 Debugging</h2>
+<p><strong>Gateways</strong></p>
+<p>Para poder hacer las pruebas desde "dentro" de una red de OpenStack, podemos hacer lo siguiente:</p>
+<ol>
+<li>Listar routers y servidores dhcp: <code>ip netns list</code></li>
+<li>ping: <code>ip netns exec dhcpID  ping IP</code></li>
+<li>arp: <code>ip netns exec routerID arp -an</code></li>
+<li>entrar en un router: <code>ip netns exec routerID bash</code> </li>
+</ol>
+<p><strong>KVMs</strong></p>
+<p>Si las IP's flotantes se quedan "colgadas" probablemente haya que reiniciar el servicio de openvswitch en los KVM:</p>
+<pre><code class="shell">service openvswitch-switch restart
+</code></pre>
+
+<h2 id="47-ha">4.7 HA</h2>
+<ul>
+<li><a href="https://assafmuller.com/2014/08/16/layer-3-high-availability/">Explicación de VRRP y DVR</a></li>
+<li><a href="https://docs.openstack.org/neutron/pike/admin/deploy-ovs-ha-vrrp.html">Más info aquí</a></li>
+</ul>
+<p>Para que los servicios de red estén en alta disponibilidad hay que añadir lo siguiente en neutron.conf:</p>
+<p><strong>Controllers</strong></p>
+<p><code>/etc/neutron/neutron.conf</code></p>
+<pre><code class="ini">[DEFAULT]
+l3_ha = true
+##opcionales
+max_l3_agents_per_router = 3
+min_l3_agents_per_router = 2
+</code></pre>
+
+<p>Reiniciamos neutron-server</p>
+<p><strong>Gateways</strong></p>
+<p>En los Gateways en <code>/etc/neutron/l3_agent.ini</code>:</p>
+<pre><code class="ini">[DEFAULT]
+interface_driver = openvswitch
+external_network_bridge =
+</code></pre>
+
+<p>En <code>/etc/neutron/plugins/ml2/openvswitch_agent.ini</code>:</p>
+<pre><code class="ini">[ovs]
+bridge_mappings = provider:br-ex
+local_ip = 172.16.200.5x
+
+[agent]
+tunnel_types = vxlan
+l2_population = true
+
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+</code></pre>
+
+<p>Y reiniciamos neutron-openvswitch-agent y neutron-l3-agent</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../05-horizon/" class="btn btn-neutral float-right" title="5. - Horizon">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../03-nova/" class="btn btn-neutral" title="3. - Nova"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../03-nova/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../05-horizon/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

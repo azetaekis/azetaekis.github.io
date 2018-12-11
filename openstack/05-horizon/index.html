@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>5. - Horizon - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "5. - Horizon";
+    var mkdocs_page_input_path = "openstack\\05-horizon.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../previos/previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../01-keystone/">1. - Keystone</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../04-neutron/">4. - Neutron</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">5. - Horizon</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#5-horizon">5. Horizon</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#51-instalacion">5.1 Instalación</a></li>
+        
+            <li><a class="toctree-l4" href="#52-configuracion">5.2 Configuración</a></li>
+        
+            <li><a class="toctree-l4" href="#53-laboratorio">5.3 Laboratorio</a></li>
+        
+            <li><a class="toctree-l4" href="#54-comprobaciones">5.4 Comprobaciones</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../08-heat/">8. - Heat</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Componentes Openstack &raquo;</li>
+        
+      
+    
+    <li>5. - Horizon</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="5-horizon">5. Horizon</h1>
+<h2 id="51-instalacion">5.1 Instalación</h2>
+<p><strong>controller01</strong></p>
+<p>Instalamos los paquetes para Horizon:</p>
+<pre><code class="shell">sudo apt install openstack-dashboard
+</code></pre>
+
+<h2 id="52-configuracion">5.2 Configuración</h2>
+<p><strong>controllers</strong></p>
+<p>Configuramos Horizon editando el fichero <code>/etc/openstack-dashboard/local_settings.py</code>:</p>
+<pre><code class="python">OPENSTACK_HOST = &quot;172.16.100.1x&quot;
+OPENSTACK_KEYSTONE_URL = &quot;http://%s:5000/v3&quot; % OPENSTACK_HOST
+OPENSTACK_KEYSTONE_DEFAULT_ROLE = &quot;user&quot;
+
+TIME_ZONE = &quot;Europe/Madrid&quot;
+
+CACHES = {
+    'default': {
+         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+         'LOCATION': '172.16.100.1x:11211',
+    }
+}
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+OPENSTACK_API_VERSIONS = {
+    &quot;identity&quot;: 3,
+    &quot;image&quot;: 2,
+    &quot;volume&quot;: 2,
+}
+
+DEFAULT_THEME = 'default'
+</code></pre>
+
+<p>Reiniciamos los servicios:</p>
+<pre><code class="shell">sudo service apache2 restart
+</code></pre>
+
+<h2 id="53-laboratorio">5.3 Laboratorio</h2>
+<h3 id="531-consolas-vnc">5.3.1 Consolas VNC</h3>
+<p><strong>kvm01 kvm02</strong></p>
+<p>Modificamos el acceso a la consola vnc en <code>/etc/nova/nova.conf</code>:</p>
+<pre><code class="ini">novncproxy_base_url = http://public-api.hispavistaroot.local:6080/vnc_auto.html
+</code></pre>
+
+<p>Reiniciamos el servicio:</p>
+<pre><code class="shell">sudo service nova-compute restart
+</code></pre>
+
+<h2 id="54-comprobaciones">5.4 Comprobaciones</h2>
+<p><strong>internet</strong></p>
+<p>Accedemos a http://openstack.hispavistaroot.local/horizon y nos logueamos con <code>admin:admin</code></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../06-operaciones/" class="btn btn-neutral float-right" title="6. - Operaciones">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../04-neutron/" class="btn btn-neutral" title="4. - Neutron"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../04-neutron/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../06-operaciones/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

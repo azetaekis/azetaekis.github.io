@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>8. - Heat - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "8. - Heat";
+    var mkdocs_page_input_path = "openstack\\08-heat.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../previos/previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../01-keystone/">1. - Keystone</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../04-neutron/">4. - Neutron</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">8. - Heat</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#8-heat">8. Heat</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#81-instalacion">8.1 Instalación</a></li>
+        
+            <li><a class="toctree-l4" href="#82-base-de-datos">8.2 Base de datos</a></li>
+        
+            <li><a class="toctree-l4" href="#83-servicios-usuarios-y-endpoints">8.3 Servicios, usuarios y endpoints</a></li>
+        
+            <li><a class="toctree-l4" href="#84-configuracion">8.4 Configuración</a></li>
+        
+            <li><a class="toctree-l4" href="#85-comprobacion">8.5 Comprobación</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Componentes Openstack &raquo;</li>
+        
+      
+    
+    <li>8. - Heat</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="8-heat">8. Heat</h1>
+<h2 id="81-instalacion">8.1 Instalación</h2>
+<p><strong>controllers</strong>
+Instalamos los paquetes para Heat:</p>
+<pre><code class="shell">sudo apt install heat-api heat-api-cfn heat-engine
+</code></pre>
+
+<h2 id="82-base-de-datos">8.2 Base de datos</h2>
+<p><strong>controller01</strong>
+Creamos la base de datos para Heat:</p>
+<p><code>sudo mysql -p</code></p>
+<pre><code class="sql">CREATE DATABASE heat;
+GRANT ALL PRIVILEGES ON heat.* TO 'heatuser'@'localhost' IDENTIFIED BY 'heatpass';
+GRANT ALL PRIVILEGES ON heat.* TO 'heatuser'@'%' IDENTIFIED BY 'heatpass';
+</code></pre>
+
+<p><strong>Controllers</strong>
+Editamos el fichero <code>/etc/heat/heat.conf</code>:</p>
+<pre><code class="ini">[database]
+connection = mysql+pymysql://heatuser:heatpass@controller/heat
+</code></pre>
+
+<p><strong>Controller01</strong>
+Poblamos la base de datos:</p>
+<pre><code class="shell">sudo su -s /bin/sh -c &quot;heat-manage db_sync&quot; heat
+</code></pre>
+
+<h2 id="83-servicios-usuarios-y-endpoints">8.3 Servicios, usuarios y endpoints</h2>
+<p><strong>controller01</strong>
+Creamos el usuario <code>heat</code> y lo añadimos al proyecto <code>service</code> con el rol <code>admin</code>:</p>
+<pre><code class="shell">source adminrc
+
+openstack user create --domain default --password h34t heat
+
+openstack role add --project service --user heat admin
+</code></pre>
+
+<p>Creamos el servicio <code>heat</code>:</p>
+<pre><code class="shell">openstack service create --name heat --description &quot;Orchestration&quot; orchestration
+</code></pre>
+
+<p>Cremos los endpoints para Heat:</p>
+<pre><code class="shell">openstack endpoint create --region SanSebastian orchestration public http://public-api.hispavistaroot.local:8004/v1/%\(tenant_id\)s
+openstack endpoint create --region SanSebastian orchestration internal http://controller:8004/v1/%\(tenant_id\)s
+openstack endpoint create --region SanSebastian orchestration admin http://controller:8004/v1/%\(tenant_id\)s
+</code></pre>
+
+<p>Creamos el servicio <code>heat-cfn</code>:</p>
+<pre><code class="shell">openstack service create --name heat-cfn --description &quot;Orchestration&quot;  cloudformation
+</code></pre>
+
+<p>Creamos los endpoints para Heat CloudFormation:</p>
+<pre><code class="shell">openstack endpoint create --region SanSebastian cloudformation public http://public-api.hispavistaroot.local:8000/v1
+openstack endpoint create --region SanSebastian cloudformation internal http://controller:8000/v1
+openstack endpoint create --region SanSebastian cloudformation admin http://controller:8000/v1
+</code></pre>
+
+<p>Creamos el dominio <code>heat</code>:</p>
+<pre><code class="shell">openstack domain create --description &quot;Stack projects and users&quot; heat
+</code></pre>
+
+<p>Creamos el usuario <code>heat_domain_admin</code> en el dominio <code>heat</code> y le damos el rol <code>admin</code>:</p>
+<pre><code class="shell">openstack user create --domain heat --password h34t heat_domain_admin
+openstack role add --domain heat --user-domain heat --user heat_domain_admin admin
+</code></pre>
+
+<p>Creamos el rol <code>heat_stack_owner</code> y se lo damos al usuario <code>hvsistemas</code> en el proyecto <code>hispavista</code> (habrá que repetir esto por cada usuario en cada proyecto que queramos que tenga capacidad de orquestar):</p>
+<pre><code class="shell">openstack role create heat_stack_owner
+openstack role add --project hispavista --user hvsistemas heat_stack_owner
+</code></pre>
+
+<p>Creamos el rol <code>heat_stack_user</code>:</p>
+<pre><code class="shell">openstack role create heat_stack_user
+</code></pre>
+
+<h2 id="84-configuracion">8.4 Configuración</h2>
+<p><strong>controllers</strong>
+Configuramos Heat editando el fichero <code>/etc/heat/heat.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+bind_host = 172.16.100.1x
+transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+heat_metadata_server_url = http://controller:8000
+heat_waitcondition_server_url = http://controller:8000/v1/waitcondition
+stack_domain_admin = heat_domain_admin
+stack_domain_admin_password = h34t
+stack_user_domain_name = heat
+
+[database]
+connection = mysql+pymysql://heatuser:heatpass@controller/heat
+
+[keystone_authtoken]
+auth_uri = http://public-api.hispavistaroot.local:5000
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = heat
+password = h34t
+
+backend = dogpile.cache.memcached
+memcache_servers = controller01:11211, controller02:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+
+[trustee]
+auth_type = password
+auth_url = http://controller:35357
+username = heat
+password = h34t
+user_domain_name = default
+
+[clients_keystone]
+auth_uri = http://controller:35357
+
+[ec2authtoken]
+auth_uri = http://public-api.hispavistaroot.local:5000/v3
+</code></pre>
+
+<p>Reiniciamos los servicios:</p>
+<pre><code class="shell">sudo service heat-api restart
+sudo service heat-api-cfn restart
+sudo service heat-engine restart
+</code></pre>
+
+<h2 id="85-comprobacion">8.5 Comprobación</h2>
+<h3 id="851-administrador">8.5.1 Administrador</h3>
+<p><strong>controller01</strong>
+Comprobamos que están todos los servicios:</p>
+<pre><code class="shell">source adminrc
+
+openstack orchestration service list
+</code></pre>
+
+<p><strong>NOTA:</strong> CREEMOS que el número de servicios de orquestación creados en cada nodo es proporcional al número de núcleos. <strong>(COMPROBAR CON UNA MÁQUINA NUEVA)</strong></p>
+<h3 id="852-usuario">8.5.2 Usuario</h3>
+<p><strong>local</strong>
+Creamos el fichero <code>template-demo.yml</code>:</p>
+<pre><code class="yaml">heat_template_version: 2015-10-15
+description: Launch a basic instance with Ubuntu image using the tiny flavor, hvsistemas key and one network
+
+parameters:
+  NetID:
+    type: string
+    description: Network ID to use for the instance.
+
+resources:
+  server:
+    type: OS::Nova::Server
+    properties:
+      image: &quot;Ubuntu 16.04 (amd64)&quot;
+      flavor: &quot;tiny&quot;
+      key_name: &quot;hvsistemas&quot;
+      networks:
+      - network: { get_param: NetID }
+
+outputs:
+  instance_name:
+    description: Name of the instance.
+    value: { get_attr: [ server, name ] }
+  instance_ip:
+    description: IP address of the instance.
+    value: { get_attr: [ server, first_address ] }
+</code></pre>
+
+<p>Lanzamos la plantilla <code>template-demo.yml</code>:</p>
+<pre><code class="shell">source hvsistemasrc
+
+export NET_ID=internal
+openstack stack create -t template-demo.yml --parameter &quot;NetID=$NET_ID&quot; mystack
+</code></pre>
+
+<p>Listamos los stacks hasta que esté completo:</p>
+<pre><code class="shell">openstack stack list
+</code></pre>
+
+<p>Vemos la salida de la ejecución del stack:</p>
+<pre><code class="shell">openstack stack output show --all mystack
+</code></pre>
+
+<p>Listamos las instancias:</p>
+<pre><code class="shell">openstack server list
+</code></pre>
+
+<p>Borramos el stack:</p>
+<pre><code class="shell">openstack stack delete --yes mystack
+</code></pre>
+
+<p>Lanzamos el stack <code>mylamp</code> desde el fichero <code>template-lamp.yml</code>:</p>
+<pre><code class="shell">openstack stack create -t template-lamp.yml mylamp
+</code></pre>
+
+<p>Listamos los stacks hasta que esté completo:</p>
+<pre><code class="shell">openstack stack list
+</code></pre>
+
+<p>Vemos la salida de la ejecución del stack:</p>
+<pre><code class="shell">openstack stack output show --all mylamp
+openstack stack output show mylamp deploy_ip  -c output_value -f value
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../09-ceilometer/" class="btn btn-neutral float-right" title="9. - Ceilometer">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../07-2-cinder+ceph/" class="btn btn-neutral" title="7.b. - Cinder con Ceph"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../07-2-cinder+ceph/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../09-ceilometer/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

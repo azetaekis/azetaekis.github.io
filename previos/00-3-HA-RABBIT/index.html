@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>0.3 - RabbitMQ - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "0.3 - RabbitMQ";
+    var mkdocs_page_input_path = "previos\\00-3-HA-RABBIT.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">0.3 - RabbitMQ</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#rabbit-ha">Rabbit HA</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#crear-un-cluster-de-rabbit">Crear un cluster de Rabbit</a></li>
+        
+            <li><a class="toctree-l4" href="#configurar-componentes-de-openstack">Configurar componentes de Openstack</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../openstack/01-keystone/">1. - Keystone</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/04-neutron/">4. - Neutron</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/08-heat/">8. - Heat</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Previos &raquo;</li>
+        
+      
+    
+    <li>0.3 - RabbitMQ</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="rabbit-ha">Rabbit HA</h1>
+<h2 id="crear-un-cluster-de-rabbit">Crear un cluster de Rabbit</h2>
+<p>Parar rabbit en el nodo de destino y copiar la cookie desde el primer nodo</p>
+<pre><code class="shell"> rsync -av /var/lib/rabbitmq/.erlang.cookie root@controller02:/var/lib/rabbitmq/.erlang.cookie
+</code></pre>
+
+<p>En cada nodo de destino comprobar  que <code>.erlang.cookie</code> tiene los permisos y propietario correctos:</p>
+<pre><code class="shell"> chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
+ chmod 400 /var/lib/rabbitmq/.erlang.cookie
+</code></pre>
+
+<p>Iniciamos el servicio de rabbit en la máquina destino (controller02) y ejecutamos los siguientes comandos:</p>
+<pre><code class="shell">service rabbitmq-server start
+rabbitmqctl cluster_status
+</code></pre>
+
+<pre><code class="shell">&gt;Cluster status of node rabbit@controller02 ...
+&gt;[{nodes,[{disc,[rabbit@controller02]}]},
+&gt; {running_nodes,[rabbit@controller02]},
+&gt; {cluster_name,&lt;&lt;&quot;rabbit@controller02&quot;&gt;&gt;},
+&gt; {partitions,[]}]
+</code></pre>
+
+<p><code>rabbitmqctl stop_app</code></p>
+<pre><code class="shell">&gt; Stopping node rabbit@controller02 ...
+</code></pre>
+
+<p><code>rabbitmqctl join_cluster rabbit@controller01</code></p>
+<pre><code class="shell">&gt;Clustering node rabbit@controller02 with rabbit@controller01 ...
+&gt;&gt;&gt; **NOTA:** Podemos cambiar el tipo de nodo si en vez de `--ram` ponemos `--disc`
+</code></pre>
+
+<p><code>rabbitmqctl start_app</code></p>
+<pre><code class="shell">&gt;Starting node rabbit@controller02 ...
+</code></pre>
+
+<p>comprobamos que se ha unido al cluster (controller01 o 02 da lo mismo):</p>
+<pre><code class="shell">rabbitmqctl cluster_status
+</code></pre>
+
+<pre><code class="shell">&gt;Cluster status of node rabbit@controller01 ...
+&gt;[{nodes,[{disc,[rabbit@controller01,rabbit@controller02]}]},
+&gt; {running_nodes,[rabbit@controller02,rabbit@controller01]},
+&gt; {cluster_name,&lt;&lt;&quot;rabbit@controller02&quot;&gt;&gt;},
+&gt; {partitions,[]}]
+</code></pre>
+
+<p>Para asegurarnos de que todas las colas excepto aquellas con nombres autogenerados se repliquen en todos los nodos, establecemos la política <code>ha-mode</code> ejecutando lo siguiente en uno de los nodos:</p>
+<pre><code class="shell">rabbitmqctl set_policy ha-all '^(?!amq\.).*' '{&quot;ha-mode&quot;: &quot;all&quot;}'
+</code></pre>
+
+<h2 id="configurar-componentes-de-openstack">Configurar componentes de Openstack</h2>
+<p>En los ficheros de configuración de los componentes de Openstack, añadir lo siguiente:</p>
+<pre><code class="ini">transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+rabbit_retry_interval=1
+rabbit_retry_backoff=2
+rabbit_max_retries=0
+rabbit_durable_queues=true
+rabbit_ha_queues=true
+</code></pre>
+
+<p>Y reiniciar los componentes</p>
+<p><strong>Controller01 y Controller02:</strong></p>
+<blockquote>
+<p>/etc/cinder/cinder.conf
+/etc/heat/heat.conf
+/etc/ceilometer/ceilometer.conf
+/etc/nova/nova.conf
+/etc/neutron/neutron.conf
+/etc/glance/glance-api.conf
+/etc/glance/glance-registry.conf</p>
+</blockquote>
+<p><strong>KVM01 y KVM02:</strong></p>
+<blockquote>
+<p>/etc/nova/nova.conf
+/etc/ceilometer/ceilometer.conf
+/etc/neutron/neutron.conf</p>
+</blockquote>
+<p><strong>Gateway:</strong></p>
+<blockquote>
+<p>/etc/neutron/neutron.conf</p>
+</blockquote>
+<p><strong>Storage:</strong></p>
+<blockquote>
+<p>/etc/cinder/cinder.conf</p>
+</blockquote>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../00-4-HA-MariaDB-Galera/" class="btn btn-neutral float-right" title="0.4 - MariaDB - Galera cluster">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../00-2-HA - HAPROXY/" class="btn btn-neutral" title="0.2 - HaProxy"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../00-2-HA - HAPROXY/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../00-4-HA-MariaDB-Galera/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>0.2 - HaProxy - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "0.2 - HaProxy";
+    var mkdocs_page_input_path = "previos\\00-2-HA - HAPROXY.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">0.2 - HaProxy</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#haproxy">HAPROXY</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#1-instalacion">1. Instalación</a></li>
+        
+            <li><a class="toctree-l4" href="#2-configuracion">2. Configuración</a></li>
+        
+            <li><a class="toctree-l4" href="#3-comprobacion-adicional-para-galera">3. Comprobación adicional para Galera</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../openstack/01-keystone/">1. - Keystone</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/04-neutron/">4. - Neutron</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/08-heat/">8. - Heat</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Previos &raquo;</li>
+        
+      
+    
+    <li>0.2 - HaProxy</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="haproxy">HAPROXY</h1>
+<h2 id="1-instalacion">1. Instalación</h2>
+<p><strong>Controllers</strong></p>
+<pre><code class="shell">apt install haproxy hatop
+</code></pre>
+
+<h2 id="2-configuracion">2. Configuración</h2>
+<h3 id="21-rsyslog">2.1. Rsyslog</h3>
+<p>Para que HAProxy pueda logear eventos en un fichero local, tenemos que hacer un cambio en <code>/etc/rsyslog.d/49-haproxy.conf</code>. Debería quedarnos así:</p>
+<pre><code class="python"># Create an additional socket in haproxy's chroot in order to allow logging via
+# /dev/log to chroot'ed HAProxy processes
+#$AddUnixListenSocket /var/lib/haproxy/dev/log
+#
+# Send HAProxy messages to a dedicated logfile
+#if $programname startswith 'haproxy' then /var/log/haproxy.log
+#&amp;~
+
+# .. otherwise consider putting these two in /etc/rsyslog.conf instead:
+$ModLoad imudp
+$UDPServerAddress 127.0.0.1
+$UDPServerRun 514
+
+# ..and in any case, put these two in /etc/rsyslog.d/49-haproxy.conf:
+local0.* -/var/log/haproxy_0.log
+&amp; ~
+# &amp; ~ means not to put what matched in the above line anywhere else for the rest of the rules
+# http://serverfault.com/questions/214312/how-to-keep-haproxy-log-messages-out-of-var-log-syslog
+
+</code></pre>
+
+<p>Y reiniciamos el servicio:</p>
+<pre><code class="shell">service rsyslog restart
+</code></pre>
+
+<h3 id="22-haproxy">2.2. HAProxy</h3>
+<blockquote>
+<p><strong>IMPORTANTE:</strong>  <strong>user haproxy</strong> en el chequeo de Galera, creado en la BBDD con un <code>create user 'haproxy'@'172.16.100.%';</code></p>
+</blockquote>
+<p>Hay que balancear todos los servicios, así que el fichero <code>/etc/haproxy/haproxy.cfg</code> quedaría así, más o menos:</p>
+<pre><code class="python">global
+  log 127.0.0.1 local0 debug
+#  log /var/lib/haproxy/dev/log local0 debug
+  chroot  /var/lib/haproxy
+  daemon
+  group  haproxy
+  maxconn  4000
+  pidfile  /var/run/haproxy.pid
+  user  haproxy
+  stats socket /var/run/haproxy.sock mode 600 level admin
+  stats timeout 2m
+
+defaults
+  log  global
+  maxconn  4000
+  option  redispatch
+  retries  3
+  timeout  http-request 10s
+  timeout  queue 1m
+  timeout  connect 10s
+  timeout  client 1m
+  timeout  server 1m
+  timeout  check 10s
+
+ listen rabbit_cluster
+#  bind 172.16.100.10:5672
+#  balance  source
+  option  tcpka
+#  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:5672 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:5672 check inter 2000 rise 2 fall 5
+#  server controller03p 192.168.111.13:5672 check inter 2000 rise 2 fall 5
+
+ listen dashboard_cluster
+  bind 192.168.111.10:80
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01p 192.168.111.11:80 check inter 2000 rise 2 fall 5
+  server controller02p 192.168.111.12:80 check inter 2000 rise 2 fall 5
+#  server controller03p 192.168.111.13:80 check inter 2000 rise 2 fall 5
+
+ listen galera_cluster
+  bind 192.168.111.10:3306
+  bind 172.16.100.10:3306
+  balance  source
+  option  mysql-check user haproxy
+  server controller01 172.16.100.11:3306 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:3306 backup check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:3306 backup check inter 2000 rise 2 fall 5
+
+ listen glance_api_cluster
+  bind 172.16.100.10:9292
+  bind 192.168.111.10:9292
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:9292 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:9292 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:9292 check inter 2000 rise 2 fall 5
+
+ listen glance_registry_cluster
+  bind 172.16.100.10:9191
+  bind 192.168.111.10:9191
+  balance  source
+  option  tcpka
+  option  tcplog
+  server controller01 172.16.100.11:9191 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:9191 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:9191 check inter 2000 rise 2 fall 5
+#
+ listen keystone_admin_cluster
+  bind 172.16.100.10:35357
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:35357 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:35357 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:35357 check inter 2000 rise 2 fall 5
+
+
+listen keystone_public_internal_cluster
+  bind 192.168.111.10:5000
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01p 192.168.111.11:5000 check inter 2000 rise 2 fall 5
+  server controller02p 192.168.111.12:5000 check inter 2000 rise 2 fall 5
+#  server controller03p 192.168.111.13:5000 check inter 2000 rise 2 fall 5
+
+ listen keystone_internal_cluster
+  bind 172.16.100.10:5000
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:5000 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:5000 check inter 2000 rise 2 fall 5
+#  server controller03p 192.168.111.13:5000 check inter 2000 rise 2 fall 5
+
+
+# listen nova_ec2_api_cluster
+#  bind 172.16.100.10:8773
+#  balance  source
+#  option  tcpka
+#  option  tcplog
+#  server controller01 172.16.100.11:8773 check inter 2000 rise 2 fall 5
+#  server controller02 172.16.100.12:8773 check inter 2000 rise 2 fall 5
+##  server controller03 172.16.100.13:8773 check inter 2000 rise 2 fall 5
+
+ listen nova_compute_api_cluster
+  bind 172.16.100.10:8774
+  bind 192.168.111.10:8774
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:8774 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:8774 check inter 2000 rise 2 fall 5
+##  server controller03 172.16.100.13:8774 check inter 2000 rise 2 fall 5
+#
+ listen nova_metadata_api_cluster
+  bind 172.16.100.10:8775
+  bind 192.168.111.10:8775
+  balance  source
+  option  tcpka
+  option  tcplog
+  server controller01 172.16.100.11:8775 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:8775 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:8775 check inter 2000 rise 2 fall 5
+
+ listen nova_placement_api_cluster
+  bind 172.16.100.10:8778
+  bind 192.168.111.10:8778
+  balance  source
+  option  tcpka
+  option  tcplog
+  server controller01 172.16.100.11:8778 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:8778 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:8778 check inter 2000 rise 2 fall 5
+
+
+ listen cinder_api_cluster
+  bind 172.16.100.10:8776
+  bind 192.168.111.10:8776
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:8776 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:8776 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:8776 check inter 2000 rise 2 fall 5
+
+ listen heat_api_cfn_cluster
+  bind 172.16.100.10:8000
+  bind 192.168.111.10:8000
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:8000 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:8000 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:8000 check inter 2000 rise 2 fall 5
+
+listen heat_api_cluster
+  bind 172.16.100.10:8004
+  bind 192.168.111.10:8004
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:8004 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:8004 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:8004 check inter 2000 rise 2 fall 5
+
+ listen gnocchi_api_cluster
+  bind 172.16.100.10:8041
+  bind 192.168.111.10:8041
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:8041 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:8041 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:8041 check inter 2000 rise 2 fall 5
+
+
+# listen ceilometer_api_cluster
+#  bind 172.16.100.10:8777
+#  balance  source
+#  option  tcpka
+#  option  tcplog
+#  server controller01 172.16.100.11:8777 check inter 2000 rise 2 fall 5
+#  server controller02 172.16.100.12:8777 check inter 2000 rise 2 fall 5
+##  server controller03 172.16.100.13:8777 check inter 2000 rise 2 fall 5
+
+ listen nova_vncproxy_cluster
+  bind 172.16.100.10:6080
+  bind 192.168.111.10:6080
+  balance  source
+  option  tcpka
+  option  tcplog
+  server controller01 172.16.100.11:6080 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:6080 check inter 2000 rise 2 fall 5
+##  server controller03 172.16.100.13:6080 check inter 2000 rise 2 fall 5
+#
+ listen neutron_api_cluster
+  bind 172.16.100.10:9696
+  bind 192.168.111.10:9696
+  balance  source
+  option  tcpka
+  option  httpchk
+  option  tcplog
+  server controller01 172.16.100.11:9696 check inter 2000 rise 2 fall 5
+  server controller02 172.16.100.12:9696 check inter 2000 rise 2 fall 5
+#  server controller03 172.16.100.13:9696 check inter 2000 rise 2 fall 5
+
+
+</code></pre>
+
+<p>También hay que añadir lo siguiente al fichero <code>/etc/sysctl.conf</code> para que los controllers puedan escuchar en interfaces de red externas (IP's virtuales):</p>
+<pre><code>net.ipv4.ip_nonlocal_bind = 1
+</code></pre>
+
+<p>Y aplicar los cambios ejecutando <code>sysctl -p</code></p>
+<p><strong>EN UN CONTROLLER</strong></p>
+<p>Después hay que añadir los recursos y restricciones a Pacemaker:</p>
+<pre><code>pcs resource create lb-haproxy lsb:haproxy --clone
+pcs constraint order start vip then vip2
+pcs constraint order start vip2 then lb-haproxy-clone
+pcs constraint colocation add vip with vip2
+pcs constraint colocation add lb-haproxy-clone with vip
+</code></pre>
+
+<pre><code> pcs status
+</code></pre>
+
+<pre><code>Cluster name: openstackv1
+Last updated: Wed Apr 18 10:37:00 2018          Last change: Wed Apr 18 10:26:51 2018 by root via cibadmin on controller01
+Stack: corosync
+Current DC: controller02 (version 1.1.14-70404b0) - partition with quorum
+2 nodes and 4 resources configured
+
+Online: [ controller01 controller02 ]
+
+Full list of resources:
+
+ vip    (ocf::heartbeat:IPaddr2):       Started controller01
+ Clone Set: lb-haproxy-clone [lb-haproxy]
+     Started: [ controller01 ]
+     Stopped: [ controller02 ]
+ vip2   (ocf::heartbeat:IPaddr2):       Started controller01
+
+PCSD Status:
+  controller01: Online
+  controller02: Online
+
+Daemon Status:
+  corosync: active/enabled
+  pacemaker: active/enabled
+  pcsd: active/enabled
+</code></pre>
+
+<h2 id="3-comprobacion-adicional-para-galera">3. Comprobación adicional para Galera</h2>
+<p><strong>Controller01 y Controller02</strong></p>
+<pre><code>apt install xinetd
+</code></pre>
+
+<p>Crear el fichero <code>/etc/default/clusterchek</code>:</p>
+<pre><code>MYSQL_USERNAME=&quot;clustercheck_user&quot;
+MYSQL_PASSWORD=&quot;my_clustercheck_password&quot;
+MYSQL_HOST=&quot;localhost&quot;
+MYSQL_PORT=&quot;3306&quot;
+</code></pre>
+
+<p>Añadir el usuario a la base de datos:</p>
+<pre><code>GRANT PROCESS ON *.* TO 'clustercheck_user'@'localhost' IDENTIFIED BY 'my_clustercheck_password';
+GRANT PROCESS ON *.* TO 'clustercheck_user'@'controller01' IDENTIFIED BY 'my_clustercheck_password';
+GRANT PROCESS ON *.* TO 'clustercheck_user'@'controller02' IDENTIFIED BY 'my_clustercheck_password';
+FLUSH PRIVILEGES;
+</code></pre>
+
+<p>Crear el fichero <code>/etc/xinetd.d/galera-monitor</code>:</p>
+<pre><code>service galera-monitor
+{
+   port = 9200
+   disable = no
+   socket_type = stream
+   protocol = tcp
+   wait = no
+   user = root
+   group = root
+   groups = yes
+   server = /usr/bin/clustercheck
+   type = UNLISTED
+   per_source = UNLIMITED
+   log_on_success =
+   log_on_failure = HOST
+   flags = REUSE
+}
+</code></pre>
+
+<p>Iniciar servicio:</p>
+<pre><code class="shell">service xinetd enable
+service xinetd start
+</code></pre>
+
+<p><strong>NOTA:</strong> probablemente haya que cambiar el bind_address en los ficheros de configuración de los servicios que corren en los controllers por la propia IP del controller.</p>
+<p><strong>NOTA:</strong> para usar  HAtop lanzar el siguiente comando: <code>hatop -s /var/run/haproxy.sock</code></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../00-3-HA-RABBIT/" class="btn btn-neutral float-right" title="0.3 - RabbitMQ">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../00-1-HA - Corosync y Pacemaker/" class="btn btn-neutral" title="0.1 - Corosync y Pacemaker"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../00-1-HA - Corosync y Pacemaker/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../00-3-HA-RABBIT/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

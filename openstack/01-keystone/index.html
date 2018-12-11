@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>1. - Keystone - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "1. - Keystone";
+    var mkdocs_page_input_path = "openstack\\01-keystone.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../previos/previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class=" current">
+                    
+    <a class="current" href="./">1. - Keystone</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#1-keystone">1. Keystone</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#10-teoria">1.0 Teoría</a></li>
+        
+            <li><a class="toctree-l4" href="#11-instalacion">1.1 Instalación</a></li>
+        
+            <li><a class="toctree-l4" href="#12-base-de-datos">1.2 Base de datos</a></li>
+        
+            <li><a class="toctree-l4" href="#13-inicializacion">1.3 Inicialización</a></li>
+        
+            <li><a class="toctree-l4" href="#14-proyectos-roles-y-usuarios">1.4 Proyectos, roles y usuarios</a></li>
+        
+            <li><a class="toctree-l4" href="#15-apache">1.5 Apache</a></li>
+        
+            <li><a class="toctree-l4" href="#16-ficheros-de-acceso">1.6 Ficheros de acceso</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../04-neutron/">4. - Neutron</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../08-heat/">8. - Heat</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Componentes Openstack &raquo;</li>
+        
+      
+    
+    <li>1. - Keystone</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="1-keystone">1. Keystone</h1>
+<h2 id="10-teoria">1.0 Teoría</h2>
+<ul>
+<li><a href="https://docs.openstack.org/keystone/pike/admin/identity-fernet-token-faq.html">Fernet</a></li>
+</ul>
+<h2 id="11-instalacion">1.1 Instalación</h2>
+<p><strong>controllers</strong></p>
+<p>Instalamos los paquetes para Keystone:</p>
+<pre><code class="shell">sudo apt install keystone memcached
+</code></pre>
+
+<h2 id="12-base-de-datos">1.2 Base de datos</h2>
+<p><strong>controllers</strong></p>
+<p>Creamos la base de datos:</p>
+<p><code>sudo mysql</code></p>
+<pre><code class="sql">CREATE DATABASE keystone;
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystoneuser'@'localhost' IDENTIFIED BY 'keystonepass';
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystoneuser'@'%' IDENTIFIED BY 'keystonepass';
+</code></pre>
+
+<p>Editamos el fichero <code>/etc/keystone/keystone.conf</code>:</p>
+<pre><code class="ini">[default]
+bind_host = 172.16.100.1x
+public_bind_host = 192.168.111.1x
+admin_bind_host = 172.16.100.1x
+
+[database]
+#connection = sqlite:////var/lib/keystone/keystone.db
+connection = mysql+pymysql://keystoneuser:keystonepass@controller/keystone
+
+[cache]
+enabled = true
+backend = dogpile.cache.memcached
+memcache_servers = controller01:11211, controller02:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+</code></pre>
+
+<p>Reiniciamos Apache :</p>
+<pre><code class="shell">service apache2 restart
+</code></pre>
+
+<p><strong>Controller01</strong>
+Poblamos la base de datos:</p>
+<pre><code class="shell">sudo su -s /bin/sh -c &quot;keystone-manage db_sync&quot; keystone
+</code></pre>
+
+<h2 id="13-inicializacion">1.3 Inicialización</h2>
+<p><strong>controller01</strong></p>
+<p>Inicializamos los repositorios de claves Fernet:</p>
+<pre><code class="shell">sudo keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+sudo keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+</code></pre>
+
+<p>Para que los nodos de Keystone funcionen correctamente, el repositorio de claves Fernet tiene que estar replicado.</p>
+<p>Ahora rotamos las claves y las sincronizamos en el resto de nodos</p>
+<pre><code class="shell">keystone-manage fernet_rotate --keystone-user keystone --keystone-group keystone
+rsync -a -v /etc/keystone/fernet-keys/ controller02:/etc/keystone/fernet-keys/
+</code></pre>
+
+<p>Y añadimos la sincronización al cron <code>/etc/cron.d/rsync_fernet</code>:</p>
+<pre><code class="ini">0 * * * * root  /usr/bin/rsync -a -v /etc/keystone/fernet-keys/ controller02:/etc/keystone/fernet-keys/ &gt;/dev/null 2&gt;&amp;1
+</code></pre>
+
+<p><strong>NOTA:</strong> public-api.hispavistaroot.local tiene que resolver a la ip virtual pública</p>
+<p>Inicializamos los endpoints de Keystone:</p>
+<pre><code class="shell">sudo keystone-manage bootstrap --bootstrap-password admin \
+  --bootstrap-public-url http://public-api.hispavistaroot.local:5000/v3/ \
+  --bootstrap-internal-url http://controller:5000/v3/ \
+  --bootstrap-admin-url http://controller:35357/v3/ \
+  --bootstrap-region-id SanSebastian
+</code></pre>
+
+<p>Exportamos las siguientes variables de entorno:</p>
+<pre><code class="shell">export OS_USERNAME=admin
+export OS_PASSWORD=admin
+export OS_PROJECT_NAME=admin
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_AUTH_URL=http://controller:35357/v3
+export OS_IDENTITY_API_VERSION=3
+</code></pre>
+
+<h2 id="14-proyectos-roles-y-usuarios">1.4 Proyectos, roles y usuarios</h2>
+<p><strong>controller01</strong></p>
+<p>Creamos los proyectos <code>service</code> y <code>hispavista</code>:</p>
+<pre><code class="shell">openstack project create --domain default --description &quot;Service Project&quot; service
+openstack project create --domain default --description &quot;Hispavista Project&quot; hispavista
+</code></pre>
+
+<p>Creamos el usuario <code>hvsistemas</code>:</p>
+<pre><code class="shell">openstack user create --domain default --password hvsistemas hvsistemas
+</code></pre>
+
+<p>Creamos el rol <code>user</code>:</p>
+<pre><code class="shell">openstack role create user
+</code></pre>
+
+<p>Añadimos al usuario <code>hvsistemas</code> en el proyecto <code>hispavista</code> con rol <code>user</code>:</p>
+<pre><code class="shell">openstack role add --project hispavista --user hvsistemas user
+</code></pre>
+
+<p>Eliminamos las variables de entorno creadas anteriormente:</p>
+<pre><code class="shell">unset OS_USERNAME
+unset OS_PASSWORD
+unset OS_PROJECT_NAME
+unset OS_USER_DOMAIN_NAME
+unset OS_PROJECT_DOMAIN_NAME
+unset OS_AUTH_URL
+unset OS_IDENTITY_API_VERSION
+</code></pre>
+
+<p>Probamos a pedir un token con el usuario <code>admin</code>:</p>
+<pre><code class="shell">openstack \
+  --os-username admin \
+  --os-project-name admin \
+  --os-user-domain-name Default \
+  --os-project-domain-name Default \
+  --os-auth-url http://controller:35357/v3 \
+  --os-identity-api-version 3 \
+  token issue
+</code></pre>
+
+<p>Probamos a pedir un token con el usuario <code>hvsistemas</code>:</p>
+<pre><code class="shell">openstack \
+  --os-username hvsistemas \
+  --os-project-name hispavista \
+  --os-user-domain-name Default \
+  --os-project-domain-name Default \
+  --os-auth-url http://public-api.hispavistaroot.local:5000/v3 \
+  --os-identity-api-version 3 \
+  token issue
+</code></pre>
+
+<h2 id="15-apache">1.5 Apache</h2>
+<p><strong>controller01</strong></p>
+<p>Keystone se sirve con <code>mod_wsgi</code> de Apache.
+Se puede ver la configuración en <code>/etc/apache2/sites-enabled/keystone.conf</code>
+Si queremos reiniciar Keystone, debemos reiniciar el servicio <code>apache2</code></p>
+<h2 id="16-ficheros-de-acceso">1.6 Ficheros de acceso</h2>
+<p><strong>controller01</strong></p>
+<p>Por facilidad, vamos a crear un fichero en <code>/home/hvsistemas/adminrc</code> con el contenido:</p>
+<pre><code class="shell">export OS_USERNAME=admin
+export OS_PASSWORD=admin
+export OS_PROJECT_NAME=admin
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_AUTH_URL=http://controller:35357/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+</code></pre>
+
+<p>Por facilidad, vamos a crear un fichero en <code>/home/hvsistemas/hvsistemasrc</code> con el contenido:</p>
+<pre><code class="shell">export OS_USERNAME=hvsistemas
+export OS_PASSWORD=hvsistemas
+export OS_PROJECT_NAME=hispavista
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_AUTH_URL=http://public-api.hispavistaroot.local:5000/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+</code></pre>
+
+<p>Ahora podemos cargar las variables de entorno con estos ficheros:</p>
+<pre><code class="shell">source adminrc
+openstack token issue
+
+source hvsistemasrc
+openstack token issue
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../02-glance/" class="btn btn-neutral float-right" title="2. - Glance">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../../previos/00-4-HA-MariaDB-Galera/" class="btn btn-neutral" title="0.4 - MariaDB - Galera cluster"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../../previos/00-4-HA-MariaDB-Galera/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../02-glance/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

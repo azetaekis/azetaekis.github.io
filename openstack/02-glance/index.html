@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>2. - Glance - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "2. - Glance";
+    var mkdocs_page_input_path = "openstack\\02-glance.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../previos/previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../01-keystone/">1. - Keystone</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">2. - Glance</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#2-glance">2. Glance</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#21-instalacion">2.1 Instalación</a></li>
+        
+            <li><a class="toctree-l4" href="#22-base-de-datos">2.2 Base de datos</a></li>
+        
+            <li><a class="toctree-l4" href="#23-servicio-usuario-y-endpoints">2.3 Servicio, usuario y endpoints</a></li>
+        
+            <li><a class="toctree-l4" href="#24-configuracion">2.4 Configuración</a></li>
+        
+            <li><a class="toctree-l4" href="#25-comprobacion">2.5 Comprobación</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../04-neutron/">4. - Neutron</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../08-heat/">8. - Heat</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Componentes Openstack &raquo;</li>
+        
+      
+    
+    <li>2. - Glance</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="2-glance">2. Glance</h1>
+<h2 id="21-instalacion">2.1 Instalación</h2>
+<p><strong>controllers</strong></p>
+<p><strong>NOTA:</strong> a día 08/02/2018 no hemos podido implementar la v3 de la api de Cinder en Horizon, no la soporta.</p>
+<p>Instalamos los paquetes para Glance:</p>
+<pre><code class="shell">sudo apt install glance
+</code></pre>
+
+<h2 id="22-base-de-datos">2.2 Base de datos</h2>
+<p><strong>controller01</strong></p>
+<p>Creamos la base de datos:</p>
+<p><code>sudo mysql -uroot -p</code></p>
+<pre><code class="sql">CREATE DATABASE glance;
+GRANT ALL PRIVILEGES ON glance.* TO 'glanceuser'@'localhost' IDENTIFIED BY 'glancepass';
+GRANT ALL PRIVILEGES ON glance.* TO 'glanceuser'@'%' IDENTIFIED BY 'glancepass';
+</code></pre>
+
+<p><strong>Controllers</strong>
+Editamos el fichero <code>/etc/glance/glance-api.conf</code>:</p>
+<pre><code class="ini">[database]
+#connection = &lt;None&gt;
+connection = mysql+pymysql://glanceuser:glancepass@controller/glance
+</code></pre>
+
+<p><strong>Controller01</strong>
+Poblamos la base de datos:</p>
+<pre><code class="shell">sudo su -s /bin/sh -c &quot;glance-manage db_sync&quot; glance
+</code></pre>
+
+<h2 id="23-servicio-usuario-y-endpoints">2.3 Servicio, usuario y endpoints</h2>
+<p><strong>controller01</strong></p>
+<p>Creamos el usuario <code>glance</code> y lo añadimos al proyecto <code>service</code> con el rol <code>admin</code>:</p>
+<pre><code class="shell">source adminrc
+
+openstack user create --domain default --password gl4nc3 glance
+
+openstack role add --project service --user glance admin
+</code></pre>
+
+<p>Creamos el servicio <code>glance</code>:</p>
+<pre><code class="shell">openstack service create --name glance --description &quot;OpenStack Image&quot; image
+</code></pre>
+
+<p>Creamos los endpoints para Glance:</p>
+<pre><code class="shell">openstack endpoint create --region SanSebastian image public http://public-api.hispavistaroot.local:9292
+openstack endpoint create --region SanSebastian image internal http://controller:9292
+openstack endpoint create --region SanSebastian image admin http://controller:9292
+</code></pre>
+
+<h2 id="24-configuracion">2.4 Configuración</h2>
+<p><strong>controllers</strong></p>
+<p>Configuramos <code>glance-api</code> editando el fichero <code>/etc/glance/glance-api.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+bind_host = controller0x  
+bind_port = 9292
+registry_host = controller
+registry_port = 9191
+
+[database]
+#connection = &lt;None&gt;
+connection = mysql+pymysql://glanceuser:glancepass@controller/glance
+
+enable_v1_api=False
+enable_v2_api=True
+
+[keystone_authtoken]
+auth_uri = http://public-api.hispavistaroot.local:5000
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = glance
+password = gl4nc3
+
+[paste_deploy]
+# ...
+flavor = keystone
+
+[glance_store]
+# ...
+stores = file,http
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images/
+</code></pre>
+
+<p>Configuramos <code>glance-registry</code> editando el fichero <code>/etc/glance/glance-registry.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+bind_host = controller0x
+bind_port = 9191
+
+[database]
+#connection = &lt;None&gt;
+connection = mysql+pymysql://glanceuser:glancepass@controller/glance
+
+[keystone_authtoken]
+auth_uri = http://public-api.hispavistaroot.local:5000
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = glance
+password = gl4nc3
+
+service_token_roles_required = true
+
+memcached_servers = controller01:11211, controller02:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+
+[paste_deploy]
+# ...
+flavor = keystone
+</code></pre>
+
+<p>Reiniciamos los servicios:</p>
+<pre><code class="shell">sudo service glance-registry restart
+sudo service glance-api restart
+</code></pre>
+
+<blockquote>
+<blockquote>
+<blockquote>
+<p><strong>NOTA:</strong> Si queremos que las imágenes de Glance estén en ambos controllers, o montamos <code>/var/lib/glance/images/</code> por nfs o usamos el método de rsync de fernet</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><code>/etc/cron.d/rsync_glance</code>:</p>
+<pre><code class="shell">0 * * * * root  /usr/bin/rsync -av /var/lib/glance/images/ controller02:/var/lib/glance/images/ &gt;/dev/null 2&gt;&amp;1
+</code></pre>
+
+<h2 id="25-comprobacion">2.5 Comprobación</h2>
+<h3 id="251-administrador">2.5.1 Administrador</h3>
+<p><strong>controller01</strong></p>
+<p>Descargamos una imagen Cirros:</p>
+<pre><code class="shell">wget http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
+</code></pre>
+
+<p>Subimos la imagen a Glance haciéndola pública:</p>
+<pre><code class="shell">source adminrc
+
+openstack image create &quot;Cirros 0.3.5&quot;  --file cirros-0.3.5-x86_64-disk.img --disk-format qcow2 --container-format bare --public
+</code></pre>
+
+<p>Comprobamos que se ha subido correctamente:</p>
+<pre><code class="shell">openstack image list
+</code></pre>
+
+<h3 id="252-usuario">2.5.2 Usuario</h3>
+<p><strong>local</strong></p>
+<p>Descargamos una imagen de Ubuntu:</p>
+<pre><code class="shell">wget https://cloud-images.ubuntu.com/xenial/20180627/xenial-server-cloudimg-amd64-disk1.img
+</code></pre>
+
+<p>Subimos la imagen a Glance haciéndola privada:</p>
+<pre><code class="shell">source hvsistemasrc
+
+openstack image create --file xenial-server-cloudimg-amd64-disk1.img --disk-format qcow2 --container-format bare --private &quot;Ubuntu 16.04 (amd64)&quot;
+</code></pre>
+
+<p>Comprobamos que se ha subido correctamente:</p>
+<pre><code class="shell">openstack image list
+</code></pre>
+
+<p>Para añadir los metadefs hay que ejecutar el siguiente comando:</p>
+<pre><code class="shell">su -s /bin/sh -c &quot;glance-manage db_load_metadefs&quot; glance
+</code></pre>
+
+<h3 id="ha">HA</h3>
+<p>Es importante que los repositorios de imágenes estén sincronizados, ya sea por NFS, CEPH, rsync o lo que sea, ya que si no no podremos crear instancias.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../03-nova/" class="btn btn-neutral float-right" title="3. - Nova">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../01-keystone/" class="btn btn-neutral" title="1. - Keystone"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../01-keystone/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../03-nova/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

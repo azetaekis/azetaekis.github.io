@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>0.0 - Configuración inicial - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "0.0 - Configuraci\u00f3n inicial";
+    var mkdocs_page_input_path = "previos\\previos.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class=" current">
+                    
+    <a class="current" href="./">0.0 - Configuración inicial</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#0-previos">0. Previos</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#00-achtung">0.0 ACHTUNG!</a></li>
+        
+            <li><a class="toctree-l4" href="#005-ssh-sin-contrasena-para-root">0.0.5 SSH SIN CONTRASEÑA PARA ROOT</a></li>
+        
+            <li><a class="toctree-l4" href="#01-actualizacion-de-paquetes">0.1 Actualización de paquetes</a></li>
+        
+            <li><a class="toctree-l4" href="#02-ntp">0.2 NTP</a></li>
+        
+            <li><a class="toctree-l4" href="#03-repositorios-openstack-pike">0.3 Repositorios OpenStack Pike</a></li>
+        
+            <li><a class="toctree-l4" href="#04-rabbitmq">0.4 RabbitMQ</a></li>
+        
+            <li><a class="toctree-l4" href="#05-mariadb-para-ha-mirar-00-4-ha-mariadb-galeramd">0.5 MariaDB &gt; para HA Mirar 00-4-HA - MariaDB - Galera.md</a></li>
+        
+            <li><a class="toctree-l4" href="#06-api">0.6 API</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../openstack/01-keystone/">1. - Keystone</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/04-neutron/">4. - Neutron</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/08-heat/">8. - Heat</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../openstack/09-ceilometer/">9. - Ceilometer</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Previos &raquo;</li>
+        
+      
+    
+    <li>0.0 - Configuración inicial</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="0-previos">0. Previos</h1>
+<h2 id="00-achtung">0.0 ACHTUNG!</h2>
+<ol>
+<li>Es recomendable añadir todos los hosts de OpenStack al fichero <code>/etc/hosts</code> </li>
+<li>Desde los nodos de computación las referencias a la IP externa del controller no tienen sentido excepto cuando referencian a la consola VNC</li>
+<li>Nos aseguramos de añadir lo siguiente al fichero <code>/etc/hosts</code>:</li>
+</ol>
+<pre><code class="python">172.16.100.11   controller01
+192.168.111.11  controller01p
+172.16.100.12   controller02
+192.168.111.12  controller02p
+172.16.100.51   gateway01
+172.16.100.52   gateway02
+172.16.100.101  kvm01
+172.16.100.102  kvm02
+172.16.100.151  storage01
+## IP's virtuales
+172.16.100.10   controller
+192.168.111.10  controllerp
+</code></pre>
+
+<p><strong>Controller01 y 02</strong>
+Instalamos memcached :</p>
+<pre><code class="shell">apt install memcached
+</code></pre>
+
+<h3 id="a-la-hora-de-configurar-memcached-en-los-controllers-lo-haremos-escuchar-por-la-interfaz-de-management-en-etcmemcachedconf">A la hora de configurar memcached, en los controllers lo haremos escuchar por la interfaz de management. En <code>/etc/memcached.conf</code>:</h3>
+<pre><code class="ini">-l controller0x
+</code></pre>
+
+<p>Comprobamos que está escuchando en la interfaz deseada:</p>
+<pre><code class="shell">netstat -plutn | grep memcache
+</code></pre>
+
+<blockquote>
+<blockquote>
+<blockquote>
+<p><strong>NOTA:</strong> Y en los ficheros de configuración de los servicios apuntaremos a las direcciones de todos los controllers en el apartado [cache] .</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<pre><code class="ini">[cache]
+enabled = true
+backend = dogpile.cache.memcached
+memcache_servers = controller01:11211, controller02:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+</code></pre>
+
+<h2 id="005-ssh-sin-contrasena-para-root">0.0.5 SSH SIN CONTRASEÑA PARA ROOT</h2>
+<p>hacemos lo siguiente en ambos controllers como root:</p>
+<pre><code class="shell">ssh-keygen
+scp /root/.ssh/id_rsa.pub hvsistemas@controller0x:/tmp/
+cat /tmp/id_rsa.pub &gt; /root/.ssh/authorized_keys
+</code></pre>
+
+<h2 id="01-actualizacion-de-paquetes">0.1 Actualización de paquetes</h2>
+<p><strong>controller01, controller02, gateway01, gateway02, storage01, kvm01 y kvm02</strong></p>
+<pre><code class="shell">sudo apt update
+sudo apt dist-upgrade
+sudo reboot
+</code></pre>
+
+<h2 id="02-ntp">0.2 NTP</h2>
+<p><strong>controller01, controller02, gateway01, gateway02, storage01, kvm01 y kvm02</strong></p>
+<p>Instalamos el cliente ntp:</p>
+<pre><code class="shell">sudo apt install ntp ntpdate
+</code></pre>
+
+<h2 id="03-repositorios-openstack-pike">0.3 Repositorios OpenStack Pike</h2>
+<p><strong>controller01, controller02, gateway01, gateway02, storage01, kvm01 y kvm02</strong></p>
+<p>Añadimos el repositorio para <code>pike</code> y actualizamos los paquetes:</p>
+<pre><code class="shell">sudo apt install software-properties-common
+
+sudo add-apt-repository cloud-archive:pike
+sudo apt update &amp;&amp; sudo apt dist-upgrade
+</code></pre>
+
+<h2 id="04-rabbitmq">0.4 RabbitMQ</h2>
+<p><strong>controller01 y controller02</strong></p>
+<p>Instalamos el <em>broker</em> RabbitMQ:</p>
+<pre><code class="shell">sudo apt install rabbitmq-server
+</code></pre>
+
+<p>Modificamos el fichero de configuración <code>/etc/rabbitmq/rabbitmq-env.conf</code>:</p>
+<pre><code class="ini">NODE_IP_ADDRESS=controller0x
+</code></pre>
+
+<p>En un controller  (el que vayamos a usar como referencia para el HA) creamos el <em>user</em> y <em>vhost</em> y establecemos permisos:</p>
+<pre><code class="shell">sudo rabbitmqctl add_user openstackuser openstackpass
+sudo rabbitmqctl add_vhost openstack
+sudo rabbitmqctl set_permissions -p openstack openstackuser &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;
+</code></pre>
+
+<p>Reiniciamos el servicio:</p>
+<pre><code class="shell">sudo service rabbitmq-server restart
+</code></pre>
+
+<p>Seguir en <a href="../00-3-HA-RABBIT/">00-3-HA-RABBIT.md</a> si queremos alta disponibilidad</p>
+<h2 id="05-mariadb-para-ha-mirar-00-4-ha-mariadb-galeramd">0.5 MariaDB &gt; para HA Mirar <a href="../00-4-HA-MariaDB-Galera/">00-4-HA - MariaDB - Galera.md</a></h2>
+<p><strong>controller01</strong>
+Instalamos MariaDB:</p>
+<pre><code class="shell">sudo apt install mariadb-server python-pymysql
+</code></pre>
+
+<p>Editamos el fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code>:</p>
+<pre><code class="ini">bind-address          = controller0x
+character-set-server  = utf8
+collation-server      = utf8_general_ci
+</code></pre>
+
+<p>Reiniciamos el servicio:</p>
+<pre><code class="shell">sudo service mysql restart
+</code></pre>
+
+<h2 id="06-api">0.6 API</h2>
+<p><strong>controller01 controller02</strong></p>
+<p>Instalamos los clientes de las APIs:</p>
+<pre><code class="shell">sudo apt install python-openstackclient
+</code></pre>
+
+<p>Ejecutamos el siguiente comando para tener bash completion:</p>
+<pre><code class="shell">openstack complete | sudo tee /etc/bash_completion.d/osc.bash_completion &gt; /dev/null
+</code></pre>
+
+<h3 id="extra-extra">Extra extra</h3>
+<p>comandos útiles:</p>
+<pre><code class="shell">openstack usage show --project hispavista --start 2018-01-05 --end 2018-01-06
+openstack usage list --start 2018-01-05 --end 2018-01-06
+</code></pre>
+
+<p><strong>Alta disponibilidad</strong></p>
+<p><a href="https://docs.openstack.org/ha-guide/intro-ha.html">Guía oficial</a></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../00-1-HA - Corosync y Pacemaker/" class="btn btn-neutral float-right" title="0.1 - Corosync y Pacemaker">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../.." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../.." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../00-1-HA - Corosync y Pacemaker/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

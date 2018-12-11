@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>9. - Ceilometer - Instalación de Openstack</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "9. - Ceilometer";
+    var mkdocs_page_input_path = "openstack\\09-ceilometer.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Instalación de Openstack</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Previos</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../previos/previos/">0.0 - Configuración inicial</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-1-HA - Corosync y Pacemaker/">0.1 - Corosync y Pacemaker</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-2-HA - HAPROXY/">0.2 - HaProxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-3-HA-RABBIT/">0.3 - RabbitMQ</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../previos/00-4-HA-MariaDB-Galera/">0.4 - MariaDB - Galera cluster</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Componentes Openstack</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../01-keystone/">1. - Keystone</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../02-glance/">2. - Glance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../03-nova/">3. - Nova</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../04-neutron/">4. - Neutron</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../05-horizon/">5. - Horizon</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../06-operaciones/">6. - Operaciones</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-1-cinder+lvm/">7.a. - Cinder con LVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../07-2-cinder+ceph/">7.b. - Cinder con Ceph</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../08-heat/">8. - Heat</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">9. - Ceilometer</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#9-ceilometer">9. CEILOMETER</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#91-instalacion">9.1 Instalación</a></li>
+        
+            <li><a class="toctree-l4" href="#92-configuracion-en-servicios">9.2 Configuración en servicios</a></li>
+        
+            <li><a class="toctree-l4" href="#93-comprobaciones">9.3 - Comprobaciones</a></li>
+        
+            <li><a class="toctree-l4" href="#si-queremos-usar-grafana">Si queremos usar grafana</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Instalación de Openstack</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Componentes Openstack &raquo;</li>
+        
+      
+    
+    <li>9. - Ceilometer</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="9-ceilometer">9. CEILOMETER</h1>
+<h2 id="91-instalacion">9.1 Instalación</h2>
+<p><strong>KVM01 y KVM02</strong>
+Instalamos paquetes de Ceilometer:</p>
+<pre><code class="shell">sudo apt-get install ceilometer-agent-compute
+</code></pre>
+
+<p>Editamos el fichero <code>/etc/ceilometer/ceilometer.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+
+[keystone_authtoken]
+auth_uri = http://controller:5000
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = ceilometer
+password = c31l0m3t3r
+
+backend = dogpile.cache.memcached
+memcache_servers = controller01:11211, controller02:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+
+[service_credentials]
+auth_url = http://controller:5000
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = ceilometer
+password = c31l0m3t3r
+interface = internalURL
+
+</code></pre>
+
+<p>Editamos el fichero <code>/etc/nova/nova.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+...
+instance_usage_audit = True
+instance_usage_audit_period = hour
+notify_on_state_change = vm_and_task_state
+
+[oslo_messaging_notifications]
+...
+driver = messagingv2
+</code></pre>
+
+<p>Reiniciamos servicios:</p>
+<pre><code class="shell">sudo service ceilometer-agent-compute restart
+sudo service nova-compute restart
+</code></pre>
+
+<p><strong>Controllers</strong>
+Usamos las credenciales de admin y creamos el usuario ceilometer y lo añadimos al proyecto service con el rol admin:</p>
+<pre><code class="shell">. adminrc
+
+openstack user create --domain default --password c31l0m3t3r ceilometer
+
+openstack role add --project service --user ceilometer admin
+</code></pre>
+
+<p>Creamos el servicio ceilometer:</p>
+<pre><code class="shell">openstack service create --name ceilometer --description &quot;Telemetry&quot; metering
+</code></pre>
+
+<p>Registramos a gnocchi en Keystone y añadimos creamos su servicio:</p>
+<pre><code class="shell">openstack user create --domain default --password gn0cch1 gnocchi
+
+openstack role add --project service --user gnocchi admin
+
+openstack service create --name gnocchi --description &quot;Metric Service&quot; metric
+</code></pre>
+
+<p>Creamos los endpoints para el servicio gnocchi:</p>
+<pre><code class="shell">openstack endpoint create --region SanSebastian metric public http://public-api.hispavistaroot.local:8041
+
+openstack endpoint create --region SanSebastian metric internal http://controller:8041
+
+openstack endpoint create --region SanSebastian metric admin http://controller:8041
+</code></pre>
+
+<p>Instalamos los paquetes de Gnocchi:</p>
+<pre><code class="shell">sudo apt install gnocchi-api gnocchi-metricd python-gnocchiclient
+</code></pre>
+
+<p>(dpkg-reconfigure -plow gnocchi-common)</p>
+<p>Creamos la base de datos y el usuario para gnocchi:</p>
+<p><code>sudo mysql -p</code></p>
+<pre><code class="sql">CREATE DATABASE gnocchi;
+GRANT ALL PRIVILEGES ON gnocchi.* TO 'gnocchi'@'localhost' IDENTIFIED BY 'gn0cch1';
+GRANT ALL PRIVILEGES ON gnocchi.* TO 'gnocchi'@'%' IDENTIFIED BY 'gn0cch1';
+</code></pre>
+
+<p>Editamos el fichero <code>/etc/gnocchi/gnocchi.conf</code>:</p>
+<pre><code class="ini">[api]
+auth_mode = keystone
+
+[keystone_authtoken]
+...
+auth_type = password
+auth_uri = http://public-api.hispavistaroot.local:5000
+auth_url = http://controller:35357
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = gnocchi
+password = gn0cch1
+interface = internalURL
+region_name = SanSebastian
+
+backend = dogpile.cache.memcached
+memcache_servers = controller01:11211, controller02:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+
+[indexer]
+url = mysql+pymysql://gnocchi:gn0cch1@controller/gnocchi
+
+[storage]
+coordination_url = redis://controller:6379
+file_basepath = /var/lib/gnocchi
+driver = file
+</code></pre>
+
+<p>Instalamos Redis:</p>
+<pre><code class="shell">sudo apt-get install redis-server
+</code></pre>
+
+<p>(También se puede instalar mongo como bbdd: https://docs.openstack.org/mitaka/install-guide-ubuntu/environment-nosql-database.html)</p>
+<p>Inicializamos gnocchi y reiniciamos servicios:</p>
+<pre><code class="shell">sudo gnocchi-upgrade
+##############sudo service gnocchi-api restart
+sudo service gnocchi-metricd restart
+sudo service apache2 restart
+</code></pre>
+
+<p>Instalamos componentes:</p>
+<pre><code class="shell">sudo apt install ceilometer-agent-notification ceilometer-agent-central
+</code></pre>
+
+<p>Editamos <code>/etc/ceilometer/ceilometer.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+
+[dispatcher_gnocchi]
+# filter out Gnocchi-related activity meters (Swift driver)
+filter_service_activity = False
+# default metric storage archival policy
+archive_policy = low
+
+[service_credentials]
+auth_url = http://controller:5000
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = ceilometer
+password = c31l0m3t3r
+interface = internalURL
+
+[keystone_authtoken]
+auth_uri = http://public-api.hispavistaroot.local:5000/v3
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = ceilometer
+password = c31l0m3t3r
+
+backend = dogpile.cache.memcached
+memcache_servers = controller01:11211, controller02:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+
+[compute]
+instance_discovery_method = libvirt_metadata
+</code></pre>
+
+<p>Añadir lo siguiente a <code>/etc/apache2/sites-enabled/gnocchi-api.conf</code>:</p>
+<pre><code class="apacheconf">&lt;Directory /&gt;
+    Options FollowSymLinks
+    AllowOverride None
+    &lt;IfVersion &gt;= 2.4&gt;
+        Require all granted
+    &lt;/IfVersion&gt;
+    &lt;IfVersion &lt; 2.4&gt;
+        Order allow,deny
+        Allow from all
+    &lt;/IfVersion&gt;
+&lt;/Directory&gt;
+</code></pre>
+
+<p>Creamos los recursos de Gnocchi y reiniciamos servicios:</p>
+<pre><code class="shell">service apache2 restart
+sudo ceilometer-upgrade --skip-metering-database ### Este comando sólo en un Controller
+sudo service ceilometer-agent-central restart
+sudo service ceilometer-agent-notification restart
+</code></pre>
+
+<h2 id="92-configuracion-en-servicios">9.2 Configuración en servicios</h2>
+<p><strong>Storage</strong>
+Editamos <code>/etc/cinder/cinder.conf</code>:</p>
+<pre><code class="ini">[oslo_messaging_notifications]
+...
+driver = messagingv2
+</code></pre>
+
+<p>Probamos que las estadísiticas periódicas funcionen (rellenando las horas y fechas):</p>
+<pre><code class="shell">cinder-volume-usage-audit  --start_time='YYYY-MM-DD HH:MM:SS' \
+  --end_time='YYYY-MM-DD HH:MM:SS' --send_actions
+</code></pre>
+
+<p>Añadimos esto al cron <code>/etc/cron.d/cinder-stats</code>:</p>
+<pre><code class="shell">*/5 * * * * /usr/bin/cinder-volume-usage-audit --send_actions
+</code></pre>
+
+<p>Reiniciamos servicios en el <strong>Controller</strong>: </p>
+<pre><code class="shell">sudo service apache2 restart
+sudo service cinder-scheduler restart
+</code></pre>
+
+<p>Y en <strong>Storage</strong>:</p>
+<pre><code class="shell">sudo service cinder-volume restart
+</code></pre>
+
+<p><strong> Glance - Controller</strong>
+Editamos <code>/etc/glance/glance-api.conf</code> y <code>/etc/glance/glance-registry.conf</code>:</p>
+<pre><code class="ini">[DEFAULT]
+transport_url = rabbit://openstackuser:openstackpass@controller01:5672,openstackuser:openstackpass@controller02:5672/openstack
+
+[oslo_messaging_notifications]
+driver = messagingv2
+</code></pre>
+
+<p>Reiniciamos los servicios:</p>
+<pre><code class="shell">sudo service glance-registry restart
+sudo service glance-api restart
+</code></pre>
+
+<p><strong> Heat - Controller</strong>
+Editamos <code>/etc/heat/heat.conf</code>:</p>
+<pre><code class="ini">[oslo_messaging_notifications]
+driver = messagingv2
+</code></pre>
+
+<p>Reiniciamos servicios:</p>
+<pre><code class="shell">sudo service heat-api restart
+sudo service heat-api-cfn restart
+sudo service heat-engine restart
+</code></pre>
+
+<p><strong>Neutron - Controller</strong>
+Editamos <code>/etc/neutron/neutron.conf</code>:</p>
+<pre><code class="ini">[oslo_messaging_notifications]
+driver = messagingv2
+</code></pre>
+
+<p>Reiniciamos el servicio:</p>
+<pre><code class="shell">sudo service neutron-server restart
+</code></pre>
+
+<h2 id="93-comprobaciones">9.3 - Comprobaciones</h2>
+<p>para comprobar que todo funciona hay que hacer lo siguiente:</p>
+<pre><code class="shell">. adminrc
+export OS_AUTH_TYPE=password
+gnocchi resource list  --type image
+gnocchi resource show a6b387e1-4276-43db-b17a-e10f649d85a3
+</code></pre>
+
+<h2 id="si-queremos-usar-grafana">Si queremos usar grafana</h2>
+<p>En los ficheros <code>keystone.conf</code> y <code>gnocchi.conf</code> añadimos lo siguiente:</p>
+<pre><code class="ini">[cors]
+allowed_origin = http://ruta-a-grafana:puerto
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../08-heat/" class="btn btn-neutral" title="8. - Heat"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../08-heat/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>
